@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "author": "MÁRCIO DE ARRUDA FONSÊCA",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-pi-pico-w",
+      "id": "pico",
+      "top": -262.45,
+      "left": -198.05,
+      "attrs": { "builder": "pico-sdk" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": -147.6,
+      "left": -341.8,
+      "attrs": { "color": "green" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led2",
+      "top": -99.6,
+      "left": -341.8,
+      "attrs": { "color": "blue" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led3",
+      "top": -51.6,
+      "left": -341.8,
+      "attrs": { "color": "red" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": -92.05,
+      "left": -297.6,
+      "attrs": { "value": "1000" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": -72.85,
+      "left": -297.6,
+      "attrs": { "value": "1000" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r3",
+      "top": -53.65,
+      "left": -297.6,
+      "attrs": { "value": "1000" }
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "bz1",
+      "top": -247.2,
+      "left": -75,
+      "attrs": { "volume": "0.1" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": -365.4,
+      "left": -189,
+      "rotate": 90,
+      "attrs": { "color": "green" }
+    }
+  ],
+  "connections": [
+    [ "pico:GP0", "$serialMonitor:RX", "", [] ],
+    [ "pico:GP1", "$serialMonitor:TX", "", [] ],
+    [ "r1:2", "pico:GP11", "red", [ "v0" ] ],
+    [ "r1:1", "led1:A", "red", [ "v0" ] ],
+    [ "pico:GP12", "r2:2", "red", [ "h-38.4", "v38.44" ] ],
+    [ "r2:1", "led2:A", "red", [ "v0" ] ],
+    [ "pico:GP13", "r3:2", "red", [ "h-28.8", "v48.04" ] ],
+    [ "r3:1", "led3:A", "red", [ "v0" ] ],
+    [ "led3:C", "led2:C", "black", [ "h-18.8", "v-48" ] ],
+    [ "pico:GND.4", "led3:C", "black", [ "v96.04", "h-153.6", "v-19.2" ] ],
+    [ "led1:C", "led2:C", "black", [ "h-18.8", "v48" ] ],
+    [ "bz1:1", "pico:GND.6", "green", [ "v0" ] ],
+    [ "bz1:2", "pico:GP21", "green", [ "v0" ] ],
+    [ "btn1:2.r", "pico:GP1", "green", [ "v0" ] ],
+    [ "btn1:1.r", "pico:GND.8", "green", [ "v0" ] ]
+  ],
+  "dependencies": {}
+}
