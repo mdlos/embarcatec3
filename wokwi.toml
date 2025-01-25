@@ -2,4 +2,3 @@
 version = 1
 firmware = 'build/pio_matrix.uf2'
 elf = 'build/pio_matrix.elf'
-gdbServerPort=3333

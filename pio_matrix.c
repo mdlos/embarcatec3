@@ -1,195 +1,242 @@
 #include <stdio.h>
-#include <string.h>
+#include <stdlib.h>
+#include <math.h>
 #include "pico/stdlib.h"
 #include "hardware/pio.h"
-#include "hardware/gpio.h"
 #include "hardware/clocks.h"
+#include "hardware/adc.h"
 #include "pico/bootrom.h"
+#include "hardware/gpio.h"
 
-// Inclusão do programa PIO para LEDs
+// Arquivo .pio
 #include "pio_matrix.pio.h"
 
-// Configuração de parâmetros
+// Definições para o teclado matricial
+const uint ROWS[] = {1, 2, 3, 4}; // GPIO pins for rows
+const uint COLS[] = {5, 6, 8, 9}; // GPIO pins for columns
+const char keys[4][4] = {
+    {'1','2','3','A'},
+    {'4','5','6','B'},
+    {'7','8','9','C'},
+    {'*','0','#','D'}
+};
+
+#define NUM_ROWS 4
+#define NUM_COLS 4
+
+// Número de LEDs
 #define NUM_PIXELS 25
-#define BUZZER_PIN 21
-#define LED_COUNT 25
 
-// Mapeamento do teclado matricial
-const uint8_t colunas[4] = {4, 3, 2, 1}; // Pinos das colunas
-const uint8_t linhas[4] = {5, 6, 7, 8};  // Pinos das linhas
-const char teclado[4][4] = 
+// Pino de saída
+#define OUT_PIN 7
+
+// Brilho fixo para todas as letras
+#define BRILHO 0.1
+double r = BRILHO, g = 0.0, b = 0.0; // Cor vermelha com brilho 0.1
+
+// Matrizes das letras "EMBARCATECH" + ♥
+double letra_E[25] = {0.1, 0.1, 0.1, 0.1, 0.0,
+                      0.0, 0.0, 0.0, 0.0, 0.1,
+                      0.1, 0.1, 0.1, 0.1, 0.0,
+                      0.0, 0.0, 0.0, 0.0, 0.1,
+                      0.1, 0.1, 0.1, 0.1, 0.0};
+
+double letra_M[25] = {0.1, 0.0, 0.0, 0.0, 0.1,
+                      0.1, 0.1, 0.0, 0.1, 0.1,
+                      0.1, 0.0, 0.1, 0.0, 0.1,
+                      0.1, 0.0, 0.0, 0.0, 0.1,
+                      0.1, 0.0, 0.0, 0.0, 0.1};
+
+double letra_B[25] = {0.1, 0.1, 0.1, 0.1, 0.0,
+                      0.1, 0.0, 0.0, 0.0, 0.1,
+                      0.1, 0.1, 0.1, 0.1, 0.0,
+                      0.1, 0.0, 0.0, 0.0, 0.1,
+                      0.1, 0.1, 0.1, 0.1, 0.0};
+
+double letra_A[25] = {0.0, 0.1, 0.1, 0.1, 0.0,
+                      0.1, 0.0, 0.0, 0.0, 0.1,
+                      0.1, 0.1, 0.1, 0.1, 0.1,
+                      0.1, 0.0, 0.0, 0.0, 0.1,
+                      0.1, 0.0, 0.0, 0.0, 0.1};
+
+double letra_R[25] = {0.1, 0.1, 0.1, 0.1, 0.1,
+                      0.0, 0.0, 0.0, 0.0, 0.1,
+                      0.1, 0.1, 0.1, 0.1, 0.0,
+                      0.0, 0.0, 0.1, 0.0, 0.1,
+                      0.1, 0.0, 0.0, 0.0, 0.1};
+
+double letra_C[25] = {0.1, 0.1, 0.1, 0.1, 0.1,
+                      0.0, 0.0, 0.0, 0.0, 0.1,
+                      0.1, 0.0, 0.0, 0.0, 0.0,
+                      0.0, 0.0, 0.0, 0.0, 0.1,
+                      0.1, 0.1, 0.1, 0.1, 0.1};
+
+double letra_T[25] = {0.1, 0.1, 0.1, 0.1, 0.1,
+                      0.0, 0.0, 0.1, 0.0, 0.0,
+                      0.0, 0.0, 0.1, 0.0, 0.0,
+                      0.0, 0.0, 0.1, 0.0, 0.0,
+                      0.0, 0.0, 0.1, 0.0, 0.0};
+
+double letra_H[25] = {0.1, 0.0, 0.0, 0.0, 0.1,
+                      0.1, 0.0, 0.0, 0.0, 0.1,
+                      0.1, 0.1, 0.1, 0.1, 0.1,
+                      0.1, 0.0, 0.0, 0.0, 0.1,
+                      0.1, 0.0, 0.0, 0.0, 0.1};
+
+double coracao[25] = {0.0, 0.1, 0.0, 0.1, 0.0,
+                      0.1, 0.1, 0.1, 0.1, 0.1,
+                      0.1, 0.1, 0.1, 0.1, 0.1,
+                      0.0, 0.1, 0.1, 0.1, 0.0,
+                      0.0, 0.0, 0.1, 0.0, 0.0};
+
+ double vazio[25] = {0.0, 0.0, 0.0, 0.0, 0.0,
+                     0.0, 0.0, 0.0, 0.0, 0.0,
+                     0.0, 0.0, 0.0, 0.0, 0.0,
+                     0.0, 0.0, 0.0, 0.0, 0.0,
+                     0.0, 0.0, 0.0, 0.0, 0.0};
+
+// Sequência de letras "EMBARCATECH" + ♥ 
+double *letras[] = {letra_E, letra_M, letra_B, letra_A, letra_R, letra_C, letra_A, letra_T, letra_E, letra_C, letra_H, coracao, vazio, coracao, vazio, coracao, vazio, coracao, coracao, coracao, vazio};
+int total_letras = 21;
+
+// Função para definir a cor do LED (vermelho com brilho fixo)
+uint32_t matrix_rgb()
 {
-    {'1', '2', '3', 'A'},
-    {'4', '5', '6', 'B'},
-    {'7', '8', '9', 'C'},
-    {'*', '0', '#', 'D'}
-};
-
-// Definindo o padrão do coração para a matriz de LEDs (25 LEDs)
-double desenhoCoracao[25] = {
-    1.0, 1.0, 0.0, 0.0, 1.0,
-    1.0, 1.0, 1.0, 1.0, 0.0,
-    1.0, 1.0, 1.0, 0.0, 0.0,
-    0.0, 1.0, 0.0, 1.0, 0.0,
-    0.0, 0.0, 1.0, 0.0, 0.0
-};
-
-// Função para converter valores RGB e intensidade em formato compatível com LEDs WS2812B
-uint32_t matrix_rgb(double r, double g, double b, double intensity) {
-    unsigned char R = r * 255 * intensity;
-    unsigned char G = g * 255 * intensity;
-    unsigned char B = b * 255 * intensity;
+    unsigned char R, G, B;
+    R = r * 255;
+    G = g * 255;
+    B = b * 255;
     return (G << 24) | (R << 16) | (B << 8);
 }
 
-// Função para acionar os LEDs
-void acionar_leds(PIO pio, uint sm, double r, double g, double b, double intensity) {
-    uint32_t cor = matrix_rgb(r, g, b, intensity);
-    for (int i = 0; i < NUM_PIXELS; i++) {
-        pio_sm_put_blocking(pio, sm, cor);
+// Função para exibir uma letra na matriz de LEDs
+void desenho_pio(double *desenho, PIO pio, uint sm)
+{
+    uint32_t valor_led = matrix_rgb(); // Vermelho com brilho 0.1
+    for (int i = 0; i < NUM_PIXELS; i++)
+    {
+        if (desenho[24 - i] == 0.1)
+            pio_sm_put_blocking(pio, sm, valor_led); // Acende o LED
+        else
+            pio_sm_put_blocking(pio, sm, 0); // Mantém apagado
     }
 }
 
-// Função para desenhar um padrão no painel de LEDs
-void desenhar_padrao(PIO pio, uint sm, double padrao[NUM_PIXELS]) {
-    for (int i = 0; i < NUM_PIXELS; i++) {
-        double intensity = padrao[i];
-        uint32_t cor = matrix_rgb(1.0, 0.0, 0.0, intensity); // Vermelho com intensidade do padrão
-        pio_sm_put_blocking(pio, sm, cor);
-    }
-}
-
-// Função para configurar o teclado matricial
-void configurar_teclado() {
-    for (int i = 0; i < 4; i++) {
-        gpio_init(linhas[i]);
-        gpio_set_dir(linhas[i], GPIO_OUT);
-        gpio_put(linhas[i], 1);
-        gpio_init(colunas[i]);
-        gpio_set_dir(colunas[i], GPIO_IN);
-        gpio_pull_up(colunas[i]);
-    }
-}
-
-// Função para ler a tecla pressionada
-char ler_tecla() {
-    for (int i = 0; i < 4; i++) {
-        gpio_put(linhas[i], 0); // Ativa a linha
-        for (int j = 0; j < 4; j++) {
-            if (!gpio_get(colunas[j])) {
-                gpio_put(linhas[i], 1); // Restaura a linha
-                return teclado[i][j];
+// Função para ler o teclado matricial com debounce
+char get_key(void)
+{
+    char key = '\0';
+    for (int row = 0; row < NUM_ROWS; row++) {
+        gpio_put(ROWS[row], 1);
+        for (int col = 0; col < NUM_COLS; col++) {
+            if (gpio_get(COLS[col]) == 1) {
+                key = keys[row][col];
+                // Debounce básico
+                sleep_ms(200);
+                return key;
             }
         }
-        gpio_put(linhas[i], 1); // Restaura a linha
+        gpio_put(ROWS[row], 0);
     }
-    return 0; // Nenhuma tecla pressionada
+    return key;
 }
 
-// Função para gerar sinal sonoro
-void gerar_sinal_sonoro(uint buzzer_pin, int duration_ms) {
-    gpio_put(buzzer_pin, 1);
-    sleep_ms(duration_ms);
-    gpio_put(buzzer_pin, 0);
-}
+char comando[10]; // Array para armazenar a entrada do usuário
+int current_letter_index = 0; // Índice da letra atual na animação
+bool animating = false;       // Flag para controlar se estamos em animação
+bool command_entered = true;  // Flag para indicar se um comando foi digitado
 
-void execute_command(const char *command, PIO pio, uint sm) {
-    if (strcmp(command, "A") == 0) {
-        printf("Comando: A\n");
-        // Ação para o comando A, apagar LEDs
-    } else if (strcmp(command, "B") == 0) {
-        printf("Comando: B\n");
-        // Ação para o comando B
-    } else if (strcmp(command, "C") == 0) {
-        printf("Comando: C\n");
-        // Ação para o comando C
-    } else if (strcmp(command, "D") == 0) {
-        printf("Comando: D\n");
-        // Ação para o comando D
-    } else if (strcmp(command, "#") == 0) {
-        gpio_put(BUZZER_PIN, true);  // Liga o buzzer
-        sleep_ms(500);  // Buzzer ativo por 500ms
-        gpio_put(BUZZER_PIN, false); // Desliga o buzzer
-
-        // Ação para o comando #
-        printf("Comando: #\n");
-        
-        // Aciona todos os LEDs na cor branca (RGB: 1.0, 1.0, 1.0)
-        acionar_leds(pio, sm, 1.0, 1.0, 1.0, 1.0);  // Cor branca com intensidade máxima
-    } else if (strcmp(command, "0") == 0) {
-        printf("Comando: 0 - Desenhando coração\n"); 
-        // Desenho do padrão de coração
-        desenhar_padrao(pio, sm, desenhoCoracao);
-    } else if (strcmp(command, "*") == 0) {
-        // Reboot do RP2040 (habilita o modo de gravação via software)
-        printf("Reiniciando...\n");
-        reset_usb_boot(0, 0);  // Inicia o reboot do sistema e coloca o RP2040 no modo de gravação
-    } else {
-        printf("Comando inválido: %s\n", command);
-    }
-}
-
-// Função principal
 int main() {
-    stdio_init_all();  // Inicializa a comunicação serial
-    printf("Sistema inicializado. Aguarde comandos...\n");
-
-    // Inicializa o PIO para controlar a matriz de LEDs
     PIO pio = pio0;
+    bool ok;
+
+    // Define o clock para 128 MHz
+    ok = set_sys_clock_khz(128000, false);
+
+    // Inicializa a comunicação serial
+    stdio_init_all();
+
+    // Configuração da PIO
     uint offset = pio_add_program(pio, &pio_matrix_program);
     uint sm = pio_claim_unused_sm(pio, true);
-    pio_matrix_program_init(pio, sm, offset, 9); // Pino de saída para LEDs
+    pio_matrix_program_init(pio, sm, offset, OUT_PIN);
 
     // Configuração do teclado matricial
-    configurar_teclado();
-
-    // Configuração do buzzer
-    gpio_init(BUZZER_PIN);
-    gpio_set_dir(BUZZER_PIN, GPIO_OUT);
-    gpio_put(BUZZER_PIN, 0);
-
-    while (true) {
-        char tecla = ler_tecla(); // Leitura da tecla
-
-        if (tecla) {
-            printf("Tecla pressionada: %c\n", tecla);  // Imprime a tecla pressionada no terminal serial
-
-            switch (tecla) {
-                case 'A': // LEDs apagados
-                    execute_command("A", pio, sm);
-                    acionar_leds(pio, sm, 0.0, 0.0, 0.0, 1.0); // Desliga os LEDs
-                    break;
-                case 'B': // LEDs azuis
-                    execute_command("B", pio, sm);
-                    acionar_leds(pio, sm, 0.0, 0.0, 1.0, 1.0); // Acende os LEDs azuis
-                    break;
-                case 'C': // LEDs vermelhos
-                    execute_command("C", pio, sm);
-                    acionar_leds(pio, sm, 1.0, 0.0, 0.0, 1.0); // Acende os LEDs vermelhos
-                    break;
-                case 'D': // LEDs verdes
-                    execute_command("D", pio, sm);
-                    acionar_leds(pio, sm, 0.0, 1.0, 0.0, 1.0); // Acende os LEDs verdes
-                    break;
-                case '0': // Desenha coração
-                    execute_command("0", pio, sm);
-                    desenhar_padrao(pio, sm, desenhoCoracao); // Desenha o padrão de coração
-                    break;
-                case '#': // Sinal sonoro
-                    execute_command("#", pio, sm);
-                    acionar_leds(pio, sm, 1.0, 1.0, 1.0, 1.0); // Acende todos os LEDs com whiter na intensidade 20
-                    gerar_sinal_sonoro(BUZZER_PIN, 500); // Gera um sinal sonoro
-                    break;
-                case '*': // Reiniciar o sistema
-                    execute_command("*", pio, sm);
-                    break;
-                default:
-                    printf("Comando desconhecido.\n");
-                    break;
-            }
-        }
-        sleep_ms(200); // Aguarda um pouco antes de verificar novamente
+    for (int i = 0; i < NUM_ROWS; i++) {
+        gpio_init(ROWS[i]);
+        gpio_set_dir(ROWS[i], GPIO_OUT);
+        gpio_put(ROWS[i], 0);
+    }
+    for (int i = 0; i < NUM_COLS; i++) {
+        gpio_init(COLS[i]);
+        gpio_set_dir(COLS[i], GPIO_IN);
+        gpio_pull_down(COLS[i]);
     }
 
+    double leds_apagados[25] = {0.0, 0.0, 0.0, 0.0, 0.0,
+                                0.0, 0.0, 0.0, 0.0, 0.0,
+                                0.0, 0.0, 0.0, 0.0, 0.0,
+                                0.0, 0.0, 0.0, 0.0, 0.0,
+                                0.0, 0.0, 0.0, 0.0, 0.0};
+
+    // Exibe a mensagem de solicitação de comando assim que o programa começa
+    printf("Digite um comando ('0' para animação, 'A' ou 'a' para apagar): ");
+    fflush(stdout);
+
+    while (true) {
+        // Verifica entrada a cada ciclo
+        int ch = getchar_timeout_us(0);
+        if (ch != PICO_ERROR_TIMEOUT) {
+            comando[0] = ch;
+            comando[1] = '\0'; // Garantir que comando é uma string de 1 caractere
+            printf("Comando digitado: %s\n", comando);
+            command_entered = true;  // Marca que um comando foi digitado
+
+            if (ch == 'A' || ch == 'a') {
+                desenho_pio(leds_apagados, pio, sm);  // Apaga LEDs imediatamente
+                animating = false;  // Para a animação
+                current_letter_index = 0;  // Reinicia a animação para o caso de começar novamente
+            } else if (ch == '0') {
+                animating = true;   // Inicia a animação
+            }
+        }
+
+        // Se estiver animando, exibe a letra atual
+        if (animating && current_letter_index < total_letras) {
+            desenho_pio(letras[current_letter_index], pio, sm);
+            current_letter_index++;  // Avança para a próxima letra
+            // Aguarda 1 segundo para passar para a próxima letra, mas verifica entrada antes de continuar
+            for (int i = 0; i < 10; ++i) {  // Loop para verificar a entrada a cada 100ms (10 vezes em 1 segundo)
+                sleep_ms(100);
+                int check_ch = getchar_timeout_us(0);
+                if (check_ch == 'A' || check_ch == 'a') {
+                    animating = false;
+                    current_letter_index = 0;
+                    desenho_pio(leds_apagados, pio, sm);  // Apaga LEDs se 'A' for pressionado durante animação
+                    break;
+                }
+            }
+        } else if (!animating) {
+            // Se não estiver animando, mantém os LEDs apagados
+            desenho_pio(leds_apagados, pio, sm);
+            current_letter_index = 0;  // Reinicia a animação para o próximo '0'
+        }
+
+        // Se a animação terminou, para de animar
+        if (current_letter_index >= total_letras) {
+            animating = false;
+            current_letter_index = 0;  // Reinicia para o próximo ciclo
+        }
+
+        // Mostra a mensagem de solicitação de comando após um comando ter sido dado
+        if (command_entered) {
+            printf("Digite um comando ('0' para animação, 'A' ou 'a' para apagar): ");
+            fflush(stdout);
+            command_entered = false;
+        }
+
+        // Adicionando um pequeno delay para evitar leituras rápidas múltiplas
+        sleep_ms(10);  // Um pequeno delay para não saturar a entrada
+    }
     return 0;
 }
