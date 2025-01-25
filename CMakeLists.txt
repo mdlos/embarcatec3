@@ -58,8 +58,19 @@ pico_set_program_version(neopixel_pio "0.1")
 pico_generate_pio_header(neopixel_pio ${CMAKE_CURRENT_LIST_DIR}/ws2818b.pio)
 
 # Modify the below lines to enable/disable output over UART/USB
+<<<<<<< HEAD
 pico_enable_stdio_uart(neopixel_pio 0)
 pico_enable_stdio_usb(neopixel_pio 1)
+=======
+pico_enable_stdio_uart(pio_matrix 0)
+pico_enable_stdio_usb(pio_matrix 1)
+
+pico_generate_pio_header(pio_matrix ${CMAKE_CURRENT_LIST_DIR}/pio_matrix.pio)
+pico_generate_pio_header(pio_matrix ${CMAKE_CURRENT_LIST_DIR}/ws2818b.pio)
+
+
+target_sources(pio_matrix PRIVATE pio_matrix.c)
+>>>>>>> b36e5ce (Alterações no código)
 
 # Add the standard library to the build
 target_link_libraries(neopixel_pio

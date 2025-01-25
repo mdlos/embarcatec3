@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=02A6F4&height=120&section=header"/>
 <h1 align="center">Embarcatec | Quarta Atividade Em Grupo</h1>
@@ -50,3 +51,7 @@ O principal objetivo deste projeto é utilizar o Raspberry Pi Pico W juntamente 
 
 ## 🎥 Demonstração: 
 - Para ver o funcionamento do projeto, acesse o vídeo:
+=======
+# embarcatec3
+# embarcatec3
+>>>>>>> b36e5ce (Alterações no código)
