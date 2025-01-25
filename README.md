@@ -12,8 +12,8 @@ O principal objetivo deste projeto é utilizar o Raspberry Pi Pico W juntamente 
 
 ## 🗒️ Lista de requisitos
 
-- Teclado matricial 4x4. ; 
-- Microcontrolador Raspberry Pi Pico W.; 
+- Teclado matricial 4x4; 
+- Microcontrolador Raspberry Pi Pico W; 
 - Matriz de LEDs Coloridos (LED-RGB 5x5 WS2812);
 - Buzzer Passivo Eletromagnético MLT-8530 SMD 3.6V (Componente opcional).
 
