@@ -17,7 +17,7 @@ O principal objetivo deste projeto é utilizar o Raspberry Pi Pico W juntamente 
 - Microcontrolador Raspberry Pi Pico W; 
 - Matriz de LEDs Coloridos (LED-RGB 5x5 WS2812);
 - Buzzer Passivo Eletromagnético MLT-8530 SMD 3.6V (Componente opcional).
-- 
+
 ## 🛠 Tecnologias
 
 1. **Git e Github**;
