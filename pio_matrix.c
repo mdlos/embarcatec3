@@ -1,3 +1,14 @@
+//Embarcatec 
+//Tarefa 1 - Aula Sincrona - 20/01/2025
+//Discentes: Alexsami
+//           João Paulo
+//           Sara 
+//           Paola
+//           Pedro
+//           Jvrsoare
+//           Márcio de Arruda Fonseca
+//           Moises Amorim
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -6,237 +17,419 @@
 #include "hardware/clocks.h"
 #include "hardware/adc.h"
 #include "pico/bootrom.h"
-#include "hardware/gpio.h"
 
-// Arquivo .pio
+//arquivo .pio
 #include "pio_matrix.pio.h"
 
-// Definições para o teclado matricial
-const uint ROWS[] = {1, 2, 3, 4}; // GPIO pins for rows
-const uint COLS[] = {5, 6, 8, 9}; // GPIO pins for columns
-const char keys[4][4] = {
-    {'1','2','3','A'},
-    {'4','5','6','B'},
-    {'7','8','9','C'},
-    {'*','0','#','D'}
-};
-
-#define NUM_ROWS 4
-#define NUM_COLS 4
-
-// Número de LEDs
+//número de LEDs
 #define NUM_PIXELS 25
 
-// Pino de saída
+//pino de saída
 #define OUT_PIN 7
 
-// Brilho fixo para todas as letras
-#define BRILHO 0.1
-double r = BRILHO, g = 0.0, b = 0.0; // Cor vermelha com brilho 0.1
+#define DEBOUNCE_DELAY 5 // Delay para debounce de teclas em milissegundos
 
-// Matrizes das letras "EMBARCATECH" + ♥
-double letra_E[25] = {0.1, 0.1, 0.1, 0.1, 0.0,
-                      0.0, 0.0, 0.0, 0.0, 0.1,
-                      0.1, 0.1, 0.1, 0.1, 0.0,
-                      0.0, 0.0, 0.0, 0.0, 0.1,
-                      0.1, 0.1, 0.1, 0.1, 0.0};
+#define FRAME_COUNT 5
+#define FRAME_SIZE 25
+#define NUM_PIXELS 25
 
-double letra_M[25] = {0.1, 0.0, 0.0, 0.0, 0.1,
-                      0.1, 0.1, 0.0, 0.1, 0.1,
-                      0.1, 0.0, 0.1, 0.0, 0.1,
-                      0.1, 0.0, 0.0, 0.0, 0.1,
-                      0.1, 0.0, 0.0, 0.0, 0.1};
+#define PIXEL_INTENSITY 0.2 // 1 equivale a 100% e 0.5 a 50%, se for testar na placa não ponha em 1 pois a intensidade é muito alta e pode prejudicar a visão
 
-double letra_B[25] = {0.1, 0.1, 0.1, 0.1, 0.0,
-                      0.1, 0.0, 0.0, 0.0, 0.1,
-                      0.1, 0.1, 0.1, 0.1, 0.0,
-                      0.1, 0.0, 0.0, 0.0, 0.1,
-                      0.1, 0.1, 0.1, 0.1, 0.0};
+//botão de interupção
+const uint button_0 = 5;
+const uint button_1 = 14;
 
-double letra_A[25] = {0.0, 0.1, 0.1, 0.1, 0.0,
-                      0.1, 0.0, 0.0, 0.0, 0.1,
-                      0.1, 0.1, 0.1, 0.1, 0.1,
-                      0.1, 0.0, 0.0, 0.0, 0.1,
-                      0.1, 0.0, 0.0, 0.0, 0.1};
-
-double letra_R[25] = {0.1, 0.1, 0.1, 0.1, 0.1,
-                      0.0, 0.0, 0.0, 0.0, 0.1,
-                      0.1, 0.1, 0.1, 0.1, 0.0,
-                      0.0, 0.0, 0.1, 0.0, 0.1,
-                      0.1, 0.0, 0.0, 0.0, 0.1};
-
-double letra_C[25] = {0.1, 0.1, 0.1, 0.1, 0.1,
-                      0.0, 0.0, 0.0, 0.0, 0.1,
-                      0.1, 0.0, 0.0, 0.0, 0.0,
-                      0.0, 0.0, 0.0, 0.0, 0.1,
-                      0.1, 0.1, 0.1, 0.1, 0.1};
-
-double letra_T[25] = {0.1, 0.1, 0.1, 0.1, 0.1,
-                      0.0, 0.0, 0.1, 0.0, 0.0,
-                      0.0, 0.0, 0.1, 0.0, 0.0,
-                      0.0, 0.0, 0.1, 0.0, 0.0,
-                      0.0, 0.0, 0.1, 0.0, 0.0};
-
-double letra_H[25] = {0.1, 0.0, 0.0, 0.0, 0.1,
-                      0.1, 0.0, 0.0, 0.0, 0.1,
-                      0.1, 0.1, 0.1, 0.1, 0.1,
-                      0.1, 0.0, 0.0, 0.0, 0.1,
-                      0.1, 0.0, 0.0, 0.0, 0.1};
-
-double coracao[25] = {0.0, 0.1, 0.0, 0.1, 0.0,
-                      0.1, 0.1, 0.1, 0.1, 0.1,
-                      0.1, 0.1, 0.1, 0.1, 0.1,
-                      0.0, 0.1, 0.1, 0.1, 0.0,
-                      0.0, 0.0, 0.1, 0.0, 0.0};
-
- double vazio[25] = {0.0, 0.0, 0.0, 0.0, 0.0,
-                     0.0, 0.0, 0.0, 0.0, 0.0,
-                     0.0, 0.0, 0.0, 0.0, 0.0,
-                     0.0, 0.0, 0.0, 0.0, 0.0,
-                     0.0, 0.0, 0.0, 0.0, 0.0};
-
-// Sequência de letras "EMBARCATECH" + ♥ 
-double *letras[] = {letra_E, letra_M, letra_B, letra_A, letra_R, letra_C, letra_A, letra_T, letra_E, letra_C, letra_H, coracao, vazio, coracao, vazio, coracao, vazio, coracao, coracao, coracao, vazio};
-int total_letras = 21;
-
-// Função para definir a cor do LED (vermelho com brilho fixo)
-uint32_t matrix_rgb()
+// Mapeamento do teclado matricial
+const uint8_t colunas[4] = {4, 3, 2, 1}; // Pinos das colunas
+const uint8_t linhas[4] = {5, 6, 8, 9};  // Pinos das linhas
+const char teclado[4][4] = 
 {
-    unsigned char R, G, B;
-    R = r * 255;
-    G = g * 255;
-    B = b * 255;
-    return (G << 24) | (R << 16) | (B << 8);
-}
+  {'1', '2', '3', 'A'}, 
+  {'4', '5', '6', 'B'}, 
+  {'7', '8', '9', 'C'},
+  {'*', '0', '#', 'D'}
+};
+/*
+//vetor para criar imagem na matriz de led - 1
+double desenho[25] =   {0.0, 0.3, 0.3, 0.3, 0.0,
+                        0.0, 0.3, 0.0, 0.3, 0.0, 
+                        0.0, 0.3, 0.3, 0.3, 0.0,
+                        0.0, 0.3, 0.0, 0.3, 0.0,
+                        0.0, 0.3, 0.3, 0.3, 0.0};
 
-// Função para exibir uma letra na matriz de LEDs
-void desenho_pio(double *desenho, PIO pio, uint sm)
-{
-    uint32_t valor_led = matrix_rgb(); // Vermelho com brilho 0.1
-    for (int i = 0; i < NUM_PIXELS; i++)
-    {
-        if (desenho[24 - i] == 0.1)
-            pio_sm_put_blocking(pio, sm, valor_led); // Acende o LED
-        else
-            pio_sm_put_blocking(pio, sm, 0); // Mantém apagado
+//vetor para criar imagem na matriz de led - 2
+double desenho2[25] =   {1.0, 0.0, 0.0, 0.0, 1.0,
+                        0.0, 1.0, 0.0, 1.0, 0.0, 
+                        0.0, 0.0, 1.0, 0.0, 0.0,
+                        0.0, 1.0, 0.0, 1.0, 0.0,
+                        1.0, 0.0, 0.0, 0.0, 1.0};
+*/
+
+
+// Função para configurar o teclado
+void configurar_teclado() {
+    for (int i = 0; i < 4; i++) {
+        gpio_init(colunas[i]);
+        gpio_set_dir(colunas[i], GPIO_OUT);
+        gpio_put(colunas[i], 1); // Inicializa as colunas com 1 (desligado)
+    }
+
+    for (int i = 0; i < 4; i++) {
+        gpio_init(linhas[i]);
+        gpio_set_dir(linhas[i], GPIO_IN);
+        gpio_pull_up(linhas[i]); // Habilita pull-up para evitar leituras erradas
     }
 }
 
-// Função para ler o teclado matricial com debounce
-char get_key(void)
-{
-    char key = '\0';
-    for (int row = 0; row < NUM_ROWS; row++) {
-        gpio_put(ROWS[row], 1);
-        for (int col = 0; col < NUM_COLS; col++) {
-            if (gpio_get(COLS[col]) == 1) {
-                key = keys[row][col];
-                // Debounce básico
-                sleep_ms(200);
-                return key;
-            }
-        }
-        gpio_put(ROWS[row], 0);
-    }
-    return key;
-}
+// Função para ler o teclado
+char leitura_teclado() {
+    char tecla = 'n'; // Inicializa com 'n' (nenhuma tecla pressionada)
 
-char comando[10]; // Array para armazenar a entrada do usuário
-int current_letter_index = 0; // Índice da letra atual na animação
-bool animating = false;       // Flag para controlar se estamos em animação
-bool command_entered = true;  // Flag para indicar se um comando foi digitado
+    for (int coluna = 0; coluna < 4; coluna++) {
+        gpio_put(colunas[coluna], 0); // Ativa a coluna (coloca como 0)
 
-int main() {
-    PIO pio = pio0;
-    bool ok;
-
-    // Define o clock para 128 MHz
-    ok = set_sys_clock_khz(128000, false);
-
-    // Inicializa a comunicação serial
-    stdio_init_all();
-
-    // Configuração da PIO
-    uint offset = pio_add_program(pio, &pio_matrix_program);
-    uint sm = pio_claim_unused_sm(pio, true);
-    pio_matrix_program_init(pio, sm, offset, OUT_PIN);
-
-    // Configuração do teclado matricial
-    for (int i = 0; i < NUM_ROWS; i++) {
-        gpio_init(ROWS[i]);
-        gpio_set_dir(ROWS[i], GPIO_OUT);
-        gpio_put(ROWS[i], 0);
-    }
-    for (int i = 0; i < NUM_COLS; i++) {
-        gpio_init(COLS[i]);
-        gpio_set_dir(COLS[i], GPIO_IN);
-        gpio_pull_down(COLS[i]);
-    }
-
-    double leds_apagados[25] = {0.0, 0.0, 0.0, 0.0, 0.0,
-                                0.0, 0.0, 0.0, 0.0, 0.0,
-                                0.0, 0.0, 0.0, 0.0, 0.0,
-                                0.0, 0.0, 0.0, 0.0, 0.0,
-                                0.0, 0.0, 0.0, 0.0, 0.0};
-
-    // Exibe a mensagem de solicitação de comando assim que o programa começa
-    printf("Digite um comando ('0' para animação, 'A' ou 'a' para apagar): ");
-    fflush(stdout);
-
-    while (true) {
-        // Verifica entrada a cada ciclo
-        int ch = getchar_timeout_us(0);
-        if (ch != PICO_ERROR_TIMEOUT) {
-            comando[0] = ch;
-            comando[1] = '\0'; // Garantir que comando é uma string de 1 caractere
-            printf("Comando digitado: %s\n", comando);
-            command_entered = true;  // Marca que um comando foi digitado
-
-            if (ch == 'A' || ch == 'a') {
-                desenho_pio(leds_apagados, pio, sm);  // Apaga LEDs imediatamente
-                animating = false;  // Para a animação
-                current_letter_index = 0;  // Reinicia a animação para o caso de começar novamente
-            } else if (ch == '0') {
-                animating = true;   // Inicia a animação
-            }
-        }
-
-        // Se estiver animando, exibe a letra atual
-        if (animating && current_letter_index < total_letras) {
-            desenho_pio(letras[current_letter_index], pio, sm);
-            current_letter_index++;  // Avança para a próxima letra
-            // Aguarda 1 segundo para passar para a próxima letra, mas verifica entrada antes de continuar
-            for (int i = 0; i < 10; ++i) {  // Loop para verificar a entrada a cada 100ms (10 vezes em 1 segundo)
-                sleep_ms(100);
-                int check_ch = getchar_timeout_us(0);
-                if (check_ch == 'A' || check_ch == 'a') {
-                    animating = false;
-                    current_letter_index = 0;
-                    desenho_pio(leds_apagados, pio, sm);  // Apaga LEDs se 'A' for pressionado durante animação
-                    break;
+        for (int linha = 0; linha < 4; linha++) {
+            if (gpio_get(linhas[linha]) == 0) { // Se uma tecla foi pressionada
+                tecla = teclado[3 - linha][coluna]; // Mapeia a tecla pressionada
+                while (gpio_get(linhas[linha]) == 0) { // Espera a tecla ser liberada (debounce)
+                    sleep_ms(10); // Atraso para evitar múltiplas leituras
                 }
+                break;
             }
-        } else if (!animating) {
-            // Se não estiver animando, mantém os LEDs apagados
-            desenho_pio(leds_apagados, pio, sm);
-            current_letter_index = 0;  // Reinicia a animação para o próximo '0'
         }
 
-        // Se a animação terminou, para de animar
-        if (current_letter_index >= total_letras) {
-            animating = false;
-            current_letter_index = 0;  // Reinicia para o próximo ciclo
-        }
+        gpio_put(colunas[coluna], 1); // Desativa a coluna (coloca como 1)
 
-        // Mostra a mensagem de solicitação de comando após um comando ter sido dado
-        if (command_entered) {
-            printf("Digite um comando ('0' para animação, 'A' ou 'a' para apagar): ");
-            fflush(stdout);
-            command_entered = false;
-        }
-
-        // Adicionando um pequeno delay para evitar leituras rápidas múltiplas
-        sleep_ms(10);  // Um pequeno delay para não saturar a entrada
+        if (tecla != 'n') break; // Sai do laço se uma tecla foi pressionada
     }
-    return 0;
+
+    return tecla; // Retorna a tecla pressionada
+}
+
+
+//imprimir valor binário
+void imprimir_binario(int num) {
+ int i;
+ for (i = 31; i >= 0; i--) {
+  (num & (1 << i)) ? printf("1") : printf("0");
+ }
+}
+
+//rotina da interrupção
+static void gpio_irq_handler(uint gpio, uint32_t events){
+    printf("Interrupção ocorreu no pino %d, no evento %d\n", gpio, events);
+    printf("HABILITANDO O MODO GRAVAÇÃO");
+	reset_usb_boot(0,0); //habilita o modo de gravação do microcontrolador
+}
+
+//rotina para definição da intensidade de cores do led
+uint32_t matrix_rgb(double b, double r, double g)
+{
+  unsigned char R, G, B;
+  R = r * 255 * PIXEL_INTENSITY;
+  G = g * 255 * PIXEL_INTENSITY;
+  B = b * 255 * PIXEL_INTENSITY;
+  return (R << 24) | (G << 16) | (B << 8);
+}
+
+
+
+
+// Vetores com os dados da animação (intensidade de cada cor para cada pixel)
+static double frames_alexsami[FRAME_COUNT][FRAME_SIZE][3] = {
+// Frame 1
+    {
+        {0.070, 0.710, 0.950}, {0.070, 0.710, 0.949}, {0.070, 0.710, 0.949}, {0.070, 0.710, 0.953}, {0.070, 0.710, 0.953},
+        {0.070, 0.710, 0.950}, {0.070, 0.710, 0.950}, {0.070, 0.710, 0.953}, {0.070, 0.710, 0.949}, {0.070, 0.710, 0.950},
+        {0.918, 0.455, 0.059}, {0.973, 0.976, 0.973}, {0.070, 0.710, 0.949}, {0.918, 0.459, 0.059}, {0.976, 0.973, 0.976},
+        {0.973, 0.976, 0.976}, {0.973, 0.976, 0.973}, {0.070, 0.710, 0.949}, {0.976, 0.973, 0.973}, {0.976, 0.973, 0.973},
+        {0.070, 0.710, 0.949}, {0.070, 0.710, 0.949}, {0.070, 0.710, 0.953}, {0.070, 0.710, 0.953}, {0.070, 0.710, 0.950}
+        
+    },
+    // Frame 2
+    {
+        {0.070, 0.710, 0.950}, {0.070, 0.710, 0.949}, {0.070, 0.710, 0.949}, {0.070, 0.710, 0.949}, {0.070, 0.710, 0.949},
+        {0.070, 0.710, 0.949}, {0.070, 0.710, 0.949}, {0.070, 0.710, 0.953}, {0.070, 0.710, 0.949}, {0.070, 0.710, 0.950},
+        {0.973, 0.976, 0.973}, {0.922, 0.455, 0.059}, {0.070, 0.710, 0.949}, {0.976, 0.976, 0.976}, {0.922, 0.459, 0.059},
+        {0.976, 0.976, 0.976}, {0.973, 0.973, 0.976}, {0.070, 0.710, 0.950}, {0.976, 0.976, 0.976}, {0.973, 0.976, 0.973},
+        {0.070, 0.710, 0.949}, {0.070, 0.710, 0.953}, {0.070, 0.710, 0.949}, {0.070, 0.710, 0.950}, {0.070, 0.710, 0.950}
+        
+    },
+    // Frame 3
+    {
+        {0.070, 0.710, 0.949}, {0.070, 0.710, 0.950}, {0.070, 0.710, 0.953}, {0.070, 0.710, 0.953}, {0.070, 0.710, 0.950},
+        {0.070, 0.710, 0.953}, {0.070, 0.710, 0.950}, {0.070, 0.710, 0.949}, {0.070, 0.710, 0.949}, {0.070, 0.710, 0.953},
+        {0.976, 0.973, 0.976}, {0.973, 0.973, 0.976}, {0.070, 0.710, 0.949}, {0.973, 0.976, 0.973}, {0.976, 0.976, 0.973},
+        {0.922, 0.455, 0.059}, {0.976, 0.976, 0.976}, {0.070, 0.710, 0.949}, {0.922, 0.455, 0.059}, {0.973, 0.976, 0.973},
+        {0.070, 0.710, 0.949}, {0.070, 0.710, 0.950}, {0.070, 0.710, 0.949}, {0.070, 0.710, 0.950}, {0.070, 0.710, 0.953}
+        
+    },
+    // Frame 4
+    {
+        {0.070, 0.710, 0.950}, {0.070, 0.710, 0.950}, {0.070, 0.710, 0.949}, {0.070, 0.710, 0.949}, {0.070, 0.710, 0.949},
+        {0.070, 0.710, 0.950}, {0.070, 0.710, 0.950}, {0.070, 0.710, 0.949}, {0.070, 0.710, 0.953}, {0.070, 0.710, 0.949},
+        {0.976, 0.976, 0.976}, {0.973, 0.973, 0.976}, {0.070, 0.710, 0.950}, {0.973, 0.973, 0.976}, {0.976, 0.973, 0.976},
+        {0.976, 0.976, 0.976}, {0.918, 0.459, 0.059}, {0.070, 0.710, 0.949}, {0.973, 0.976, 0.973}, {0.922, 0.455, 0.059},
+        {0.070, 0.710, 0.953}, {0.070, 0.710, 0.953}, {0.070, 0.710, 0.950}, {0.070, 0.710, 0.953}, {0.070, 0.710, 0.950}
+        
+    },
+    // Frame 5
+    {
+        {0.070, 0.710, 0.950}, {0.070, 0.710, 0.950}, {0.126, 0.104, 0.693}, {0.070, 0.710, 0.950}, {0.070, 0.710, 0.950},
+        {0.070, 0.710, 0.949}, {0.070, 0.710, 0.950}, {0.070, 0.710, 0.949}, {0.070, 0.710, 0.949}, {0.070, 0.710, 0.949},
+        {0.973, 0.976, 0.973}, {0.973, 0.973, 0.976}, {0.070, 0.710, 0.949}, {0.973, 0.973, 0.976}, {0.973, 0.976, 0.973},
+        {0.922, 0.455, 0.059}, {0.973, 0.976, 0.973}, {0.070, 0.710, 0.950}, {0.918, 0.455, 0.059}, {0.973, 0.973, 0.976},
+        {0.070, 0.710, 0.949}, {0.070, 0.710, 0.950}, {0.070, 0.710, 0.953}, {0.070, 0.710, 0.953}, {0.070, 0.710, 0.949}
+        
+    }
+
+};
+
+
+// Animação feita por José Vinicius, "EMBARCATECH ♥"
+
+static double frames_embarcatech[11][FRAME_SIZE][3] = {
+    // Frame 'E'
+    {
+        {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}
+    },
+    // Frame 'M'
+    {
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}
+    },
+   // Frame 'B'
+    {
+        {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}
+    },
+   // Frame 'A'
+    {
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}
+    },
+   // Frame 'R'
+    {
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}
+    },
+   // Frame 'C'
+    {
+        {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}
+    },
+   // Segundo 'A'
+    {
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}
+    },
+   // Frame 'T'
+    {
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}
+    },
+    // Segundo 'E'
+    {
+        {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}
+    },
+   // Segundo 'C'
+    {
+        {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}
+    },
+   // Frame 'H'
+    {
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}
+    },
+    // Frame '♥'
+    {
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}
+    }
+};
+
+// Função para exibir animação das letras "EMBARCATECH"
+void exibir_animacao_embarcatech(PIO pio, uint sm) {
+    for (int i = 0; i < 12; i++) { // 11 letras em "EMBARCATECH"
+        desenho_pio(frames_embarcatech[i], 0, pio, sm);
+        sleep_ms(1500); // Delay de 1 segundo entre cada letra
+    }
+}
+
+// Função para acionar a matriz de LEDs - ws2812b
+void desenho_pio(double frame[FRAME_SIZE][3], uint32_t valor_led, PIO pio, uint sm) {
+    for (int i = 0; i < FRAME_SIZE; i++) {
+        double r = frame[i][0];
+        double g = frame[i][1];
+        double b = frame[i][2];
+        valor_led = matrix_rgb(r, g, b);
+        pio_sm_put_blocking(pio, sm, valor_led);
+    }
+}
+
+// Função para acionar a matriz de LEDs - ws2812b
+void apagar_matriz_leds( PIO pio, uint sm) {
+    for (int i = 0; i < FRAME_SIZE; i++) {
+        uint32_t valor_led = matrix_rgb(0, 0, 0);
+        pio_sm_put_blocking(pio, sm, valor_led);
+    }
+}
+
+// Função para exibir animação
+void exibir_animacao_alexsami(PIO pio, uint sm) {
+  int frame_idx = 0;
+    for (frame_idx = 0; frame_idx < FRAME_COUNT; frame_idx++) {
+        desenho_pio(frames_alexsami[frame_idx], 0, pio, sm);
+        sleep_ms(130); // Pausa entre os frames
+    }
+}
+
+
+//função principal
+int main()
+{
+  PIO pio = pio0; 
+  bool ok;
+  uint16_t i;
+  uint32_t valor_led;
+  double r = 0.0, b = 0.0 , g = 0.0;
+
+  //coloca a frequência de clock para 128 MHz, facilitando a divisão pelo clock
+  ok = set_sys_clock_khz(128000, false);
+
+  // Inicializa todos os códigos stdio padrão que estão ligados ao binário.
+  stdio_init_all();
+
+  printf("iniciando a transmissão PIO");
+  if (ok) printf("clock set to %ld\n", clock_get_hz(clk_sys));
+
+  //configurações da PIO
+  uint offset = pio_add_program(pio, &pio_matrix_program);
+  uint sm = pio_claim_unused_sm(pio, true);
+  pio_matrix_program_init(pio, sm, offset, OUT_PIN);
+
+  //inicializar o botão de interrupção - GPIO5
+  gpio_init(button_1);
+  gpio_set_dir(button_1, GPIO_IN);
+  gpio_pull_up(button_1);
+
+  //inicializar o botão de interrupção - GPIO5
+  gpio_init(button_1);
+  gpio_set_dir(button_1, GPIO_IN);
+  gpio_pull_up(button_1);
+
+  //interrupção da gpio habilitada
+  gpio_set_irq_enabled_with_callback(button_1, GPIO_IRQ_EDGE_FALL, 1, & gpio_irq_handler);
+
+  configurar_teclado();
+  while (true) {
+
+    char tecla = leitura_teclado();
+
+    if (tecla != 'n') { // Verifica se uma tecla foi pressionada
+      printf("Tecla pressionada: %c\n", tecla);
+
+      switch (tecla) {
+        case 'A':
+        
+        break;
+        case 'B':
+            //desenho_pio(desenho2, valor_led, pio, sm, r, g, b);
+            sleep_ms(1000);
+            break;
+        case 'C':
+
+            break;
+        case 'D':
+
+            break;
+        case '#':
+            apagar_matriz_leds(pio, sm);
+            break;
+        case '*':
+
+            break;
+        case '0':
+            exibir_animacao_embarcatech(pio, sm);
+            sleep_ms(1000);
+            break;
+        case '1':
+
+            break;
+        case '2':
+
+            break;
+        case '3':
+
+            break;    
+        case '4':
+
+            break;
+        case '5':
+
+            break;
+        case '6':
+
+            break;
+        case '7':
+            exibir_animacao_alexsami(pio, sm);
+            sleep_ms(1000);
+            break;
+        case '8':
+
+            break;
+        case '9':
+
+            break;
+        default:
+            //desenho_pio(desenho2, valor_led, pio, sm, r, g, b);
+            break;
+      }
+    }
+    sleep_ms(DEBOUNCE_DELAY); // Delay para debounce
+    //exibir_animacao_alexsami(pio, sm); //botão USADO PARA TESTES NA PLACA FÍSICA
+    apagar_matriz_leds(pio, sm);
+
+  
+  }
+  return 0;
 }
