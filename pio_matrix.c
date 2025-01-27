@@ -297,7 +297,7 @@ void exibir_animacao_alexsami(PIO pio, uint sm) {
   int frame_idx = 0;
     for (frame_idx = 0; frame_idx < FRAME_COUNT; frame_idx++) {
         desenho_pio(frames_alexsami[frame_idx], 0, pio, sm);
-        sleep_ms(130); // Pausa entre os frames
+        sleep_ms(300); // Pausa entre os frames
     }
 }
 
@@ -364,7 +364,7 @@ int main()
             
             break;
         case '*':
-
+            reset_usb_boot(0,0);
             break;
         case '0':
             exibir_animacao_embarcatech(pio, sm);
@@ -405,7 +405,11 @@ int main()
     }
     sleep_ms(DEBOUNCE_DELAY); // Delay para debounce
     //exibir_animacao_alexsami(pio, sm); //botão USADO PARA TESTES NA PLACA FÍSICA
+    //exibir_animacao_embarcatech(pio, sm); //botão USADO PARA TESTES NA PLACA FÍSICA
+    sleep_ms(1000);
     apagar_matriz_leds(pio, sm);
+    //reset_usb_boot(0,0); //botão USADO PARA TESTES NA PLACA FÍSICA
+    
 
   
   }
