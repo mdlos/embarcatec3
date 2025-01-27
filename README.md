@@ -28,7 +28,7 @@ O principal objetivo deste projeto é utilizar o Raspberry Pi Pico W juntamente 
 
 ## 🔧 Funcionalidades Implementadas:
 
-
+Animação feita por José Vinicius, ao apertar a tecla 0, irá aparecer o nome "EMBARCATECH ♥". Caso a tecla A seja acionada, todos os LEDs deverão ser desligados. 
 
 ## 💻 Desenvolvedores
  
