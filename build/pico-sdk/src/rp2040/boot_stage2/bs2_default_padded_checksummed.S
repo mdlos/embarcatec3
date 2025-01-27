@@ -1,4 +1,4 @@
-// Padded and checksummed version of: /home/mdlos/Documentos/Embarcatec/projeto/Atividade3-main/build/pico-sdk/src/rp2040/boot_stage2/bs2_default.bin
+// Padded and checksummed version of: D:/Documentos - 300GB/Semestre 2025.1/EmbarcaTech/Unidade 4/Tarefa 4/Tarefa_grupo/embarcatec3/build/pico-sdk/src/rp2040/boot_stage2/bs2_default.bin
 
 .cpu cortex-m0plus
 .thumb
