@@ -370,7 +370,7 @@ int main()
 
       switch (tecla) {
         case 'A':
-        
+        apagar_matriz_leds(pio, sm);
         break;
         case 'B':
             //desenho_pio(desenho2, valor_led, pio, sm, r, g, b);
@@ -383,7 +383,7 @@ int main()
 
             break;
         case '#':
-            apagar_matriz_leds(pio, sm);
+            
             break;
         case '*':
 
