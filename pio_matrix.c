@@ -50,6 +50,14 @@ const char teclado[4][4] =
   {'*', '0', '#', 'D'}
 };
 
+/*
+//vetor para criar imagem na matriz de led - 2
+double desenho2[25] =   {1.0, 0.0, 0.0, 0.0, 1.0,
+                        0.0, 1.0, 0.0, 1.0, 0.0, 
+                        0.0, 0.0, 1.0, 0.0, 0.0,
+                        0.0, 1.0, 0.0, 1.0, 0.0,
+                        1.0, 0.0, 0.0, 0.0, 1.0};
+*/
 
 
 // Função para configurar o teclado
@@ -118,16 +126,7 @@ uint32_t matrix_rgb(double b, double r, double g)
   return (R << 24) | (G << 16) | (B << 8);
 }
 
-// Função para acionar a matriz de LEDs - ws2812b
-void desenho_pio(double frame[FRAME_SIZE][3], uint32_t valor_led, PIO pio, uint sm) {
-    for (int i = 0; i < FRAME_SIZE; i++) {
-        double r = frame[i][0];
-        double g = frame[i][1];
-        double b = frame[i][2];
-        valor_led = matrix_rgb(r, g, b);
-        pio_sm_put_blocking(pio, sm, valor_led);
-    }
-}
+
 
 
 // Vetores com os dados da animação (intensidade de cada cor para cada pixel)
@@ -181,9 +180,9 @@ static double frames_alexsami[FRAME_COUNT][FRAME_SIZE][3] = {
 };
 
 
-// Animação feita por José Vinicius, ao apertar a tecla 0, irá aparecer o nome "EMBARCATECH"
+// Animação feita por José Vinicius, ao apertar a tecla 0, irá aparecer o nome "EMBARCATECH ♥"
 
-static double frames_embarcatech[11][FRAME_SIZE][3] = {
+static double frames_embarcatech[10][FRAME_SIZE][3] = {
     // Frame 'E'
     {
         {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
@@ -282,7 +281,16 @@ void exibir_animacao_embarcatech(PIO pio, uint sm) {
     }
 }
 
-
+// Função para acionar a matriz de LEDs - ws2812b
+void desenho_pio(double frame[FRAME_SIZE][3], uint32_t valor_led, PIO pio, uint sm) {
+    for (int i = 0; i < FRAME_SIZE; i++) {
+        double r = frame[i][0];
+        double g = frame[i][1];
+        double b = frame[i][2];
+        valor_led = matrix_rgb(r, g, b);
+        pio_sm_put_blocking(pio, sm, valor_led);
+    }
+}
 
 // Função para acionar a matriz de LEDs - ws2812b
 void apagar_matriz_leds( PIO pio, uint sm) {
@@ -297,7 +305,7 @@ void exibir_animacao_alexsami(PIO pio, uint sm) {
   int frame_idx = 0;
     for (frame_idx = 0; frame_idx < FRAME_COUNT; frame_idx++) {
         desenho_pio(frames_alexsami[frame_idx], 0, pio, sm);
-        sleep_ms(300); // Pausa entre os frames
+        sleep_ms(130); // Pausa entre os frames
     }
 }
 
@@ -348,7 +356,7 @@ int main()
 
       switch (tecla) {
         case 'A':
-        apagar_matriz_leds(pio, sm);
+        
         break;
         case 'B':
             //desenho_pio(desenho2, valor_led, pio, sm, r, g, b);
@@ -361,7 +369,7 @@ int main()
 
             break;
         case '#':
-            
+            apagar_matriz_leds(pio, sm);
             break;
         case '*':
             reset_usb_boot(0,0);
@@ -405,11 +413,7 @@ int main()
     }
     sleep_ms(DEBOUNCE_DELAY); // Delay para debounce
     //exibir_animacao_alexsami(pio, sm); //botão USADO PARA TESTES NA PLACA FÍSICA
-    //exibir_animacao_embarcatech(pio, sm); //botão USADO PARA TESTES NA PLACA FÍSICA
-    sleep_ms(1000);
     apagar_matriz_leds(pio, sm);
-    //reset_usb_boot(0,0); //botão USADO PARA TESTES NA PLACA FÍSICA
-    
 
   
   }
