@@ -49,21 +49,7 @@ const char teclado[4][4] =
   {'7', '8', '9', 'C'},
   {'*', '0', '#', 'D'}
 };
-/*
-//vetor para criar imagem na matriz de led - 1
-double desenho[25] =   {0.0, 0.3, 0.3, 0.3, 0.0,
-                        0.0, 0.3, 0.0, 0.3, 0.0, 
-                        0.0, 0.3, 0.3, 0.3, 0.0,
-                        0.0, 0.3, 0.0, 0.3, 0.0,
-                        0.0, 0.3, 0.3, 0.3, 0.0};
 
-//vetor para criar imagem na matriz de led - 2
-double desenho2[25] =   {1.0, 0.0, 0.0, 0.0, 1.0,
-                        0.0, 1.0, 0.0, 1.0, 0.0, 
-                        0.0, 0.0, 1.0, 0.0, 0.0,
-                        0.0, 1.0, 0.0, 1.0, 0.0,
-                        1.0, 0.0, 0.0, 0.0, 1.0};
-*/
 
 
 // Função para configurar o teclado
@@ -132,7 +118,16 @@ uint32_t matrix_rgb(double b, double r, double g)
   return (R << 24) | (G << 16) | (B << 8);
 }
 
-
+// Função para acionar a matriz de LEDs - ws2812b
+void desenho_pio(double frame[FRAME_SIZE][3], uint32_t valor_led, PIO pio, uint sm) {
+    for (int i = 0; i < FRAME_SIZE; i++) {
+        double r = frame[i][0];
+        double g = frame[i][1];
+        double b = frame[i][2];
+        valor_led = matrix_rgb(r, g, b);
+        pio_sm_put_blocking(pio, sm, valor_led);
+    }
+}
 
 
 // Vetores com os dados da animação (intensidade de cada cor para cada pixel)
@@ -186,7 +181,7 @@ static double frames_alexsami[FRAME_COUNT][FRAME_SIZE][3] = {
 };
 
 
-// Animação feita por José Vinicius, ao apertar a tecla 0, irá aparecer o nome "EMBARCATECH ♥"
+// Animação feita por José Vinicius, ao apertar a tecla 0, irá aparecer o nome "EMBARCATECH"
 
 static double frames_embarcatech[11][FRAME_SIZE][3] = {
     // Frame 'E'
@@ -276,35 +271,18 @@ static double frames_embarcatech[11][FRAME_SIZE][3] = {
         {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
         {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
         {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}
-    },
-    // Frame '♥'
-    {
-        {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
-        {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
-        {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
-        {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
-        {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}
     }
 };
 
 // Função para exibir animação das letras "EMBARCATECH"
 void exibir_animacao_embarcatech(PIO pio, uint sm) {
-    for (int i = 0; i < 12; i++) { // 11 letras em "EMBARCATECH"
+    for (int i = 0; i < 11; i++) { // 11 letras em "EMBARCATECH"
         desenho_pio(frames_embarcatech[i], 0, pio, sm);
         sleep_ms(1500); // Delay de 1 segundo entre cada letra
     }
 }
 
-// Função para acionar a matriz de LEDs - ws2812b
-void desenho_pio(double frame[FRAME_SIZE][3], uint32_t valor_led, PIO pio, uint sm) {
-    for (int i = 0; i < FRAME_SIZE; i++) {
-        double r = frame[i][0];
-        double g = frame[i][1];
-        double b = frame[i][2];
-        valor_led = matrix_rgb(r, g, b);
-        pio_sm_put_blocking(pio, sm, valor_led);
-    }
-}
+
 
 // Função para acionar a matriz de LEDs - ws2812b
 void apagar_matriz_leds( PIO pio, uint sm) {
