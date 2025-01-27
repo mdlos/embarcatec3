@@ -28,8 +28,9 @@ O principal objetivo deste projeto é utilizar o Raspberry Pi Pico W juntamente 
 
 ## 🔧 Funcionalidades Implementadas:
 
-- Animação feita por José Vinicius, ao apertar a tecla 0, irá aparecer o nome "EMBARCATECH ♥". Caso a tecla A seja acionada, todos os LEDs deverão ser desligados.
+- Animação feita por José Vinicius, ao apertar a tecla 0, irá aparecer o nome "EMBARCATECH". Caso a tecla A seja acionada, todos os LEDs deverão ser desligados.
 - Animação feita por Paola, caso a tecla B seja acionada, todos os LEDs ligados na cor azul, intensidade de 100% da luminosidade.
+- Animação feita por Alexsami Lopes, ao apertar a tecla 7, aparece um emoji com olhos que se movimentam e ao fim faz uma cara de surpresa. <img src="images/sprite_5.png" width="15px">
 
 ## 💻 Desenvolvedores
  
@@ -51,4 +52,13 @@ O principal objetivo deste projeto é utilizar o Raspberry Pi Pico W juntamente 
 
 ## 🎥 Demonstração: 
 
-- Para ver o funcionamento do projeto, acesse o vídeo:
+<div align="center">
+  <figure>  
+    <img src="images/Demo_Wokwi.png" width="500px">
+    
+<figcaption>
+
+**Figura 1** - Demo do Projeto no Wokwi.com - Acessível em: https://wokwi.com/projects/420933409236358145
+    </figcaption>
+  </figure>
+</div>
