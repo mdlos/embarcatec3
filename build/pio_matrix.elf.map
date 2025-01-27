@@ -3590,7 +3590,7 @@ LOAD C:/Users/Lex/.pico-sdk/toolchain/13_3_Rel1/bin/../lib/gcc/arm-none-eabi/13.
                 0x200000c0                        . = ALIGN (0x4)
  *(.uninitialized_data*)
 
-.data           0x200000c0     0x32d0 load address 0x10007d58
+.data           0x200000c0     0x3520 load address 0x10007d58
                 0x200000c0                        __data_start__ = .
  *(vtable)
  *(.time_critical*)
@@ -3658,199 +3658,199 @@ LOAD C:/Users/Lex/.pico-sdk/toolchain/13_3_Rel1/bin/../lib/gcc/arm-none-eabi/13.
  *(.data*)
  *fill*         0x20000f98        0x0 
  .data.frames_embarcatech
-                0x20000f98     0x1770 CMakeFiles/pio_matrix.dir/pio_matrix.c.obj
+                0x20000f98     0x19c8 CMakeFiles/pio_matrix.dir/pio_matrix.c.obj
  .data.frames_alexsami
-                0x20002708      0xbb8 CMakeFiles/pio_matrix.dir/pio_matrix.c.obj
+                0x20002960      0xbb8 CMakeFiles/pio_matrix.dir/pio_matrix.c.obj
  .data.striped_spin_lock_num
-                0x200032c0        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_sync/sync.c.obj
- *fill*         0x200032c1        0x3 
- .data          0x200032c4       0x48 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_irq/irq_handler_chain.S.obj
-                0x200032c4                irq_handler_chain_slots
-                0x200032f4                irq_handler_chain_first_slot
-                0x200032fe                irq_handler_chain_remove_tail
+                0x20003518        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_sync/sync.c.obj
+ *fill*         0x20003519        0x3 
+ .data          0x2000351c       0x48 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_irq/irq_handler_chain.S.obj
+                0x2000351c                irq_handler_chain_slots
+                0x2000354c                irq_handler_chain_first_slot
+                0x20003556                irq_handler_chain_remove_tail
  .data.default_alarm_pool
-                0x2000330c       0x18 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/common/pico_time/time.c.obj
- *fill*         0x20003324        0xc 
+                0x20003564       0x18 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/common/pico_time/time.c.obj
+ *fill*         0x2000357c        0x4 
  .data.aeabi_bits_funcs
-                0x20003330       0x10 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S.obj
-                0x20003330                aeabi_bits_funcs
-                0x20003340                aeabi_bits_funcs_end
+                0x20003580       0x10 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S.obj
+                0x20003580                aeabi_bits_funcs
+                0x20003590                aeabi_bits_funcs_end
  .data.aeabi_mem_funcs
-                0x20003340       0x10 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj
-                0x20003340                aeabi_mem_funcs
-                0x20003350                aeabi_mem_funcs_end
+                0x20003590       0x10 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj
+                0x20003590                aeabi_mem_funcs
+                0x200035a0                aeabi_mem_funcs_end
  .data.stdio_usb
-                0x20003350       0x18 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
-                0x20003350                stdio_usb
+                0x200035a0       0x18 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+                0x200035a0                stdio_usb
  .data._usbd_qdef
-                0x20003368       0x1c CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd.c.obj
-                0x20003368                _usbd_qdef
+                0x200035b8       0x1c CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd.c.obj
+                0x200035b8                _usbd_qdef
  .data._usbd_rhport
-                0x20003384        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd.c.obj
-                0x20003388                        . = ALIGN (0x4)
- *fill*         0x20003385        0x3 
+                0x200035d4        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd.c.obj
+                0x200035d8                        . = ALIGN (0x4)
+ *fill*         0x200035d5        0x3 
  *(.after_data.*)
-                0x20003388                        . = ALIGN (0x4)
-                0x20003388                        PROVIDE (__mutex_array_start = .)
+                0x200035d8                        . = ALIGN (0x4)
+                0x200035d8                        PROVIDE (__mutex_array_start = .)
  *(SORT_BY_NAME(.mutex_array.*))
  *(.mutex_array)
- .mutex_array   0x20003388        0x8 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio/stdio.c.obj
-                0x20003390                        PROVIDE (__mutex_array_end = .)
-                0x20003390                        . = ALIGN (0x4)
+ .mutex_array   0x200035d8        0x8 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio/stdio.c.obj
+                0x200035e0                        PROVIDE (__mutex_array_end = .)
+                0x200035e0                        . = ALIGN (0x4)
  *(.jcr)
-                0x20003390                        . = ALIGN (0x4)
+                0x200035e0                        . = ALIGN (0x4)
 
 .tm_clone_table
-                0x20003390        0x0 load address 0x1000b028
+                0x200035e0        0x0 load address 0x1000b278
  .tm_clone_table
-                0x20003390        0x0 C:/Users/Lex/.pico-sdk/toolchain/13_3_Rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
+                0x200035e0        0x0 C:/Users/Lex/.pico-sdk/toolchain/13_3_Rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
  .tm_clone_table
-                0x20003390        0x0 C:/Users/Lex/.pico-sdk/toolchain/13_3_Rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtend.o
+                0x200035e0        0x0 C:/Users/Lex/.pico-sdk/toolchain/13_3_Rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtend.o
 
-.igot.plt       0x20003390        0x0 load address 0x1000b028
- .igot.plt      0x20003390        0x0 C:/Users/Lex/.pico-sdk/toolchain/13_3_Rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
+.igot.plt       0x200035e0        0x0 load address 0x1000b278
+ .igot.plt      0x200035e0        0x0 C:/Users/Lex/.pico-sdk/toolchain/13_3_Rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
 
-.tdata          0x20003390        0x0 load address 0x1000b028
-                0x20003390                        . = ALIGN (0x4)
+.tdata          0x200035e0        0x0 load address 0x1000b278
+                0x200035e0                        . = ALIGN (0x4)
  *(.tdata .tdata.* .gnu.linkonce.td.*)
-                0x20003390                        __tdata_end = .
-                0x20003390                        PROVIDE (__data_end__ = .)
+                0x200035e0                        __tdata_end = .
+                0x200035e0                        PROVIDE (__data_end__ = .)
                 0x10007d58                        __etext = LOADADDR (.data)
 
-.tbss           0x20003390        0x0 load address 0x1000b028
-                0x20003390                        . = ALIGN (0x4)
-                0x20003390                        __bss_start__ = .
-                0x20003390                        __tls_base = .
+.tbss           0x200035e0        0x0 load address 0x1000b278
+                0x200035e0                        . = ALIGN (0x4)
+                0x200035e0                        __bss_start__ = .
+                0x200035e0                        __tls_base = .
  *(.tbss .tbss.* .gnu.linkonce.tb.*)
  *(.tcommon)
-                0x20003390                        __tls_end = .
+                0x200035e0                        __tls_end = .
 
-.bss            0x20003390     0x1094 load address 0x1000b028
-                0x20003390                        . = ALIGN (0x4)
-                0x20003390                        __tbss_end = .
+.bss            0x200035e0     0x1094 load address 0x1000b278
+                0x200035e0                        . = ALIGN (0x4)
+                0x200035e0                        __tbss_end = .
  *(SORT_BY_ALIGNMENT(SORT_BY_NAME(.bss*)))
  .bss.default_alarm_pool_entries
-                0x20003390      0x180 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/common/pico_time/time.c.obj
+                0x200035e0      0x180 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/common/pico_time/time.c.obj
  .bss.last_avail_time.1
-                0x20003510        0x8 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
- .bss.sd_table  0x20003518      0x100 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_double/double_init_rom_rp2040.c.obj
-                0x20003518                sd_table
+                0x20003760        0x8 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+ .bss.sd_table  0x20003768      0x100 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_double/double_init_rom_rp2040.c.obj
+                0x20003768                sd_table
  .bss._app_driver
-                0x20003618        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd.c.obj
+                0x20003868        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd.c.obj
  .bss._cdcd_fifo_cfg
-                0x2000361c        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/class/cdc/cdc_device.c.obj
- *fill*         0x2000361d        0x3 
+                0x2000386c        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/class/cdc/cdc_device.c.obj
+ *fill*         0x2000386d        0x3 
  .bss._cdcd_itf
-                0x20003620      0x2c8 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/class/cdc/cdc_device.c.obj
+                0x20003870      0x2c8 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/class/cdc/cdc_device.c.obj
  .bss._ctrl_xfer
-                0x200038e8       0x14 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd_control.c.obj
+                0x20003b38       0x14 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd_control.c.obj
  .bss._ubsd_mutexdef
-                0x200038fc        0x8 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd.c.obj
+                0x20003b4c        0x8 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd.c.obj
  .bss._usbd_ctrl_buf
-                0x20003904       0x40 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd_control.c.obj
+                0x20003b54       0x40 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd_control.c.obj
  .bss._usbd_dev
-                0x20003944       0x54 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd.c.obj
+                0x20003b94       0x54 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd.c.obj
  .bss._usbd_mutex
-                0x20003998        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd.c.obj
- .bss._usbd_q   0x2000399c        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd.c.obj
+                0x20003be8        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd.c.obj
+ .bss._usbd_q   0x20003bec        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd.c.obj
  .bss._usbd_qdef_buf
-                0x200039a0       0xc0 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd.c.obj
-                0x200039a0                _usbd_qdef_buf
+                0x20003bf0       0xc0 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd.c.obj
+                0x20003bf0                _usbd_qdef_buf
  .bss._used_instruction_space
-                0x20003a60        0x8 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_pio/pio.c.obj
+                0x20003cb0        0x8 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_pio/pio.c.obj
  .bss._vendord_itf
-                0x20003a68      0x2cc CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/class/vendor/vendor_device.c.obj
+                0x20003cb8      0x2cc CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/class/vendor/vendor_device.c.obj
  .bss.boot2_copyout
-                0x20003d34      0x100 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_flash/flash.c.obj
+                0x20003f84      0x100 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_flash/flash.c.obj
  .bss.callbacks
-                0x20003e34        0x8 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_gpio/gpio.c.obj
+                0x20004084        0x8 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_gpio/gpio.c.obj
  .bss.chars_available_callback
-                0x20003e3c        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+                0x2000408c        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
  .bss.chars_available_param
-                0x20003e40        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
- .bss.claimed   0x20003e44        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_sync/sync.c.obj
- .bss.claimed   0x20003e48        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_timer/timer.c.obj
- *fill*         0x20003e49        0x3 
- .bss.claimed   0x20003e4c        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_pio/pio.c.obj
- *fill*         0x20003e4d        0x3 
+                0x20004090        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+ .bss.claimed   0x20004094        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_sync/sync.c.obj
+ .bss.claimed   0x20004098        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_timer/timer.c.obj
+ *fill*         0x20004099        0x3 
+ .bss.claimed   0x2000409c        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_pio/pio.c.obj
+ *fill*         0x2000409d        0x3 
  .bss.configured_freq
-                0x20003e50       0x28 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_clocks/clocks.c.obj
+                0x200040a0       0x28 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_clocks/clocks.c.obj
  .bss.desc_str.0
-                0x20003e78       0x28 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
- .bss.drivers   0x20003ea0        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio/stdio.c.obj
+                0x200040c8       0x28 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
+ .bss.drivers   0x200040f0        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio/stdio.c.obj
  .bss.e15_last_sof
-                0x20003ea4        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/portable/raspberrypi/rp2040/rp2040_usb.c.obj
-                0x20003ea4                e15_last_sof
- .bss.filter    0x20003ea8        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio/stdio.c.obj
+                0x200040f4        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/portable/raspberrypi/rp2040/rp2040_usb.c.obj
+                0x200040f4                e15_last_sof
+ .bss.filter    0x200040f8        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio/stdio.c.obj
  .bss.hw_endpoints
-                0x20003eac      0x400 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
+                0x200040fc      0x400 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
  .bss.lazy_vsnprintf
-                0x200042ac        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_printf/printf.c.obj
+                0x200044fc        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_printf/printf.c.obj
  .bss.load_value
-                0x200042b0        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_watchdog/watchdog.c.obj
+                0x20004500        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_watchdog/watchdog.c.obj
  .bss.next_buffer_ptr
-                0x200042b4        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
- .bss.object.0  0x200042b8       0x18 C:/Users/Lex/.pico-sdk/toolchain/13_3_Rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
+                0x20004504        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
+ .bss.object.0  0x20004508       0x18 C:/Users/Lex/.pico-sdk/toolchain/13_3_Rel1/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
  .bss.one_shot_timer_crit_sec
-                0x200042d0        0x8 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
- .bss.pools     0x200042d8       0x10 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/common/pico_time/time.c.obj
+                0x20004520        0x8 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+ .bss.pools     0x20004528       0x10 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/common/pico_time/time.c.obj
  .bss.raw_irq_mask
-                0x200042e8        0x8 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_gpio/gpio.c.obj
+                0x20004538        0x8 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_gpio/gpio.c.obj
  .bss.retrieved_id
-                0x200042f0        0x8 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_unique_id/unique_id.c.obj
+                0x20004540        0x8 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_unique_id/unique_id.c.obj
  .bss.sf_clz_func
-                0x200042f8        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_double/double_init_rom_rp2040.c.obj
-                0x200042f8                sf_clz_func
- .bss.sf_table  0x200042fc      0x100 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_float/float_init_rom_rp2040.c.obj
-                0x200042fc                sf_table
+                0x20004548        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_double/double_init_rom_rp2040.c.obj
+                0x20004548                sf_clz_func
+ .bss.sf_table  0x2000454c      0x100 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_float/float_init_rom_rp2040.c.obj
+                0x2000454c                sf_table
  .bss.sleep_notifier
-                0x200043fc        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/common/pico_time/time.c.obj
+                0x2000464c        0x4 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/common/pico_time/time.c.obj
  .bss.stdio_usb_mutex
-                0x20004400        0x8 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+                0x20004650        0x8 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
  .bss.usbd_serial_str
-                0x20004408       0x11 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
+                0x20004658       0x11 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
  .bss._app_driver_count
-                0x20004419        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd.c.obj
+                0x20004669        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd.c.obj
  .bss._sof_enable
-                0x2000441a        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
+                0x2000466a        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
  .bss._usbd_queued_setup
-                0x2000441b        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd.c.obj
+                0x2000466b        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/lib/tinyusb/src/device/usbd.c.obj
  .bss.boot2_copyout_valid
-                0x2000441c        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_flash/flash.c.obj
+                0x2000466c        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_flash/flash.c.obj
  .bss.irq_handler_chain_free_slot_head
-                0x2000441d        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_irq/irq.c.obj
- .bss.itf_num   0x2000441e        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
+                0x2000466d        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_irq/irq.c.obj
+ .bss.itf_num   0x2000466e        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
  .bss.low_priority_irq_num
-                0x2000441f        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+                0x2000466f        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
  .bss.one_shot_timer_pending
-                0x20004420        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+                0x20004670        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
  .bss.user_irq_claimed
-                0x20004421        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_irq/irq.c.obj
+                0x20004671        0x1 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/hardware_irq/irq.c.obj
  *(COMMON)
-                0x20004424                        . = ALIGN (0x4)
- *fill*         0x20004422        0x2 
-                0x20004424                        __bss_end__ = .
+                0x20004674                        . = ALIGN (0x4)
+ *fill*         0x20004672        0x2 
+                0x20004674                        __bss_end__ = .
 
-.heap           0x20004424      0x800 load address 0x1000b028
-                0x20004424                        __end__ = .
-                0x20004424                        end = __end__
+.heap           0x20004674      0x800 load address 0x1000b278
+                0x20004674                        __end__ = .
+                0x20004674                        end = __end__
  *(.heap*)
- .heap          0x20004424      0x800 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_crt0/crt0.S.obj
+ .heap          0x20004674      0x800 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_crt0/crt0.S.obj
                 0x20040000                        __HeapLimit = (ORIGIN (RAM) + LENGTH (RAM))
 
-.scratch_x      0x20040000        0x0 load address 0x1000b028
+.scratch_x      0x20040000        0x0 load address 0x1000b278
                 0x20040000                        __scratch_x_start__ = .
  *(.scratch_x.*)
                 0x20040000                        . = ALIGN (0x4)
                 0x20040000                        __scratch_x_end__ = .
-                0x1000b028                        __scratch_x_source__ = LOADADDR (.scratch_x)
+                0x1000b278                        __scratch_x_source__ = LOADADDR (.scratch_x)
 
-.scratch_y      0x20041000        0x0 load address 0x1000b028
+.scratch_y      0x20041000        0x0 load address 0x1000b278
                 0x20041000                        __scratch_y_start__ = .
  *(.scratch_y.*)
                 0x20041000                        . = ALIGN (0x4)
                 0x20041000                        __scratch_y_end__ = .
-                0x1000b028                        __scratch_y_source__ = LOADADDR (.scratch_y)
+                0x1000b278                        __scratch_y_source__ = LOADADDR (.scratch_y)
 
 .stack1_dummy
  *(.stack1*)
@@ -3859,9 +3859,9 @@ LOAD C:/Users/Lex/.pico-sdk/toolchain/13_3_Rel1/bin/../lib/gcc/arm-none-eabi/13.
  *(.stack*)
  .stack         0x20041000      0x800 CMakeFiles/pio_matrix.dir/C_/Users/Lex/.pico-sdk/sdk/2.1.0/src/rp2_common/pico_crt0/crt0.S.obj
 
-.flash_end      0x1000b028        0x0
+.flash_end      0x1000b278        0x0
  *(.embedded_end_block*)
-                0x1000b028                        PROVIDE (__flash_binary_end = .)
+                0x1000b278                        PROVIDE (__flash_binary_end = .)
                 0x20040000                        __StackLimit = (ORIGIN (RAM) + LENGTH (RAM))
                 0x20041000                        __StackOneTop = (ORIGIN (SCRATCH_X) + LENGTH (SCRATCH_X))
                 0x20042000                        __StackTop = (ORIGIN (SCRATCH_Y) + LENGTH (SCRATCH_Y))

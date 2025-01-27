@@ -180,9 +180,9 @@ static double frames_alexsami[FRAME_COUNT][FRAME_SIZE][3] = {
 };
 
 
-// Animação feita por José Vinicius, ao apertar a tecla 0, irá aparecer o nome "EMBARCATECH ♥"
+// Animação feita por José Vinicius, ao apertar a tecla 0, irá aparecer o nome "EMBARCATECH"
 
-static double frames_embarcatech[10][FRAME_SIZE][3] = {
+static double frames_embarcatech[11][FRAME_SIZE][3] = {
     // Frame 'E'
     {
         {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0},
