@@ -484,6 +484,16 @@ void ligar_todos_leds_vemelhos_intessidade_alta_ramom(PIO pio, uint sm) {
     
     acender_leds_pio(leds_vermelhos[0], 0, pio, sm, 0.8);
 }
+// Função para exibir LEDs verdes com 50% de intensidade
+void exibir_pedro(PIO pio, uint sm) {
+    for (int i = 0; i < FRAME_SIZE; i++) {
+        // Define o valor do LED com 50% de intensidade para a cor verde
+        uint32_t valor_led = matrix_rgb(0, 0.5, 0); // RGB: Verde
+        pio_sm_put_blocking(pio, sm, valor_led);
+    }
+    sleep_ms(1000);
+}
+
 
 //função principal
 int main()
@@ -543,7 +553,7 @@ int main()
             apagar = false;
             break;
         case 'D':
-
+            exibir_pedro(pio,sm);
             break;
         case '#':
             apagar_matriz_leds(pio, sm);
