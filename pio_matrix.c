@@ -548,39 +548,29 @@ static double frames_embarcatech[11][FRAME_SIZE][3] = {
 };
 
 // Animações feitas por Moises
-static double frames_estrela[1][FRAME_SIZE][3] = {
+static double frames_tabuleiro[2][FRAME_SIZE][3] = {
         // Frames 1 
         {
 
-          {0, 0, 0}, {0, 1, 0}, {1, 1, 1}, {0, 1, 0}, {0, 0, 0},
-          {0, 1, 0}, {0, 1, 0}, {1, 1, 1}, {0, 1, 0}, {0, 1, 0},
-          {1, 1, 1}, {1, 1, 1}, {1, 1, 1}, {1, 1, 1}, {1, 1, 1},
-          {0, 1, 0}, {0, 1, 0}, {1, 1, 1}, {0, 1, 0}, {0, 1, 0},
-          {0, 0, 0}, {0, 1, 0}, {1, 1, 1}, {0, 1, 0}, {0, 0, 0}
+          {0, 0, 255}, {0, 0, 0}, {0, 0, 255}, {0, 0, 0}, {0, 0, 255},
+          {0, 0, 0}, {0, 0, 255}, {0, 0, 0}, {0, 0, 255}, {0, 0, 0},
+          {0, 0, 255}, {0, 0, 0}, {0, 0, 255}, {0, 0, 0}, {0, 0, 255},
+          {0, 0, 0}, {0, 0, 255}, {0, 0, 0}, {0, 0, 255}, {0, 0, 0},
+          {0, 0, 255}, {0, 0, 0}, {0, 0, 255}, {0, 0, 0}, {0, 0, 255}
+
         },
+
+        {
+          {0, 0, 0}, {255, 255, 255}, {0, 0, 0}, {255, 255, 255}, {0, 0, 0},
+          {255, 255, 255}, {0, 0, 0}, {255, 255, 255}, {0, 0, 0}, {255, 255, 255},
+          {0, 0, 0}, {255, 255, 255}, {0, 0, 0}, {255, 255, 255}, {0, 0, 0},
+          {255, 255, 255}, {0, 0, 0}, {255, 255, 255}, {0, 0, 0}, {255, 255, 255},
+          {0, 0, 0}, {255, 255, 255}, {0, 0, 0}, {255, 255, 255}, {0, 0, 0}
+       },
 
         
    };
 
-
-
-    // Frames 1 
-    /*{
-        0.0, 0.0, 0.6, 0.0, 0.0, // Topo da estrela
-        0.6, 0.0, 0.0, 0.0, 0.6, // Braços laterais superiores
-        0.0, 0.6, 0.0, 0.6, 0.0, // Centro vazio
-        0.6, 0.0, 0.0, 0.0, 0.6, // Braços laterais inferiores
-        0.0, 0.0, 0.6, 0.0, 0.0  // Base da estrela
-    },
-     //Frames 2
-    {
-        0.0, 0.0, 1.0, 0.0, 0.0, // Topo cheio
-        1.0, 1.0, 1.0, 1.0, 1.0, // Braços laterais superiores preenchidos
-        0.0, 1.0, 1.0, 1.0, 0.0, // Centro totalmente preenchido
-        1.0, 1.0, 1.0, 1.0, 1.0, // Braços laterais inferiores preenchidos
-        0.0, 1.0, 0.0, 1.0, 0.0  // Base preenchida
-    },
-};*/
 
 //Animações de operações matemáticas feitas por Paola Fagundes
 static double frames_operacoes_paola[5][5][3] = {
@@ -672,9 +662,9 @@ void exibir_animacao_sara(PIO pio, uint sm){
     }
 }
 
-void exibir_animacao_estrela(PIO pio, uint sm) {
-    for (int i = 0; i < 1; i++) { // Repetir animação 3 vezes
-        desenho_pio(frames_estrela[i], 0, pio, sm); 
+void exibir_animacao_tabuleiro(PIO pio, uint sm) {
+    for (int i = 0; i < 2; i++) { // Repetir animação 3 vezes
+        desenho_pio(frames_tabuleiro[i], 0, pio, sm); 
         sleep_ms(1000);
         
     }
@@ -791,7 +781,7 @@ int main()
             exibir_animacao("JOAO PAULO", pio, sm);
             break;
         case '2':
-               exibir_animacao_estrela(pio, sm);
+               exibir_animacao_tabuleiro(pio, sm);
                sleep_ms(1000);
                apagar = true;
             break;
