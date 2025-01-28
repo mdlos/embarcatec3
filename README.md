@@ -32,6 +32,7 @@ O principal objetivo deste projeto é utilizar o Raspberry Pi Pico W juntamente 
 - Animação feita por Paola, caso a tecla B seja acionada, todos os LEDs ligados na cor azul, intensidade de 100% da luminosidade.
 - Animação feita por Alexsami Lopes, ao apertar a tecla 7, aparece um emoji com olhos que se movimentam e ao fim faz uma cara de surpresa. <img src="images/sprite_5.png" width="15px">
 - Animação feita por Sara, caso a tecla 8 seja acionada, é exibindo um coração "arrastando" na matriz de led
+- Animação feita por Moises, caso a tecla 2 seja acionada, é exibindo estrelas.
 
 ## 💻 Desenvolvedores
  
