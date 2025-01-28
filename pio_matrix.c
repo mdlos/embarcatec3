@@ -630,6 +630,16 @@ static double leds_vermelhos[1][FRAME_SIZE][3] = {
     } 
 };
 
+static double leds_azuis[1][FRAME_SIZE][3] = {
+    {
+        {1, 0, 0}, {1, 0, 0}, {1, 0, 0}, {1, 0, 0}, {1, 0, 0},
+        {1, 0, 0}, {1, 0, 0}, {1, 0, 0}, {1, 0, 0}, {1, 0, 0},
+        {1, 0, 0}, {1, 0, 0}, {1, 0, 0}, {1, 0, 0}, {1, 0, 0},
+        {1, 0, 0}, {1, 0, 0}, {1, 0, 0}, {1, 0, 0}, {1, 0, 0},
+        {1, 0, 0}, {1, 0, 0}, {1, 0, 0}, {1, 0, 0}, {1, 0, 0}
+    } 
+};
+
 // Função para exibir animação das letras "EMBARCATECH"
 void exibir_animacao_embarcatech(PIO pio, uint sm) {
     for (int i = 0; i < 11; i++) { // 11 letras em "EMBARCATECH"
@@ -702,6 +712,9 @@ void exibir_pedro(PIO pio, uint sm) {
     sleep_ms(1000);
 }
 
+void acender_leds_azuis(PIO pio, uint sm) { 
+    acender_leds_pio(leds_azuis[0], 0, pio, sm, 0.8);
+}
 
 //função principal
 int main()
@@ -753,9 +766,9 @@ int main()
             apagar = true;
         break;
         case 'B':
-            //desenho_pio(desenho2, valor_led, pio, sm, r, g, b);
-            sleep_ms(1000);
-            break;
+           	acender_leds_azuis(pio, sm);
+		apagar = false;
+		break;
         case 'C':
             ligar_todos_leds_vemelhos_intessidade_alta_ramom(pio, sm);
             apagar = false;
