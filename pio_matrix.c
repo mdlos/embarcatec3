@@ -59,6 +59,26 @@ double desenho2[25] =   {1.0, 0.0, 0.0, 0.0, 1.0,
                         1.0, 0.0, 0.0, 0.0, 1.0};
 */
 
+//rotina para definição da intensidade de cores do led
+uint32_t matrix_rgb(double b, double r, double g)
+{
+  unsigned char R, G, B;
+  R = r * 255 * PIXEL_INTENSITY;
+  G = g * 255 * PIXEL_INTENSITY;
+  B = b * 255 * PIXEL_INTENSITY;
+  return (R << 24) | (G << 16) | (B << 8);
+}
+
+// Função para acionar a matriz de LEDs - ws2812b
+void desenho_pio(double frame[FRAME_SIZE][3], uint32_t valor_led, PIO pio, uint sm) {
+    for (int i = 0; i < FRAME_SIZE; i++) {
+        double r = frame[i][0];
+        double g = frame[i][1];
+        double b = frame[i][2];
+        valor_led = matrix_rgb(r, g, b);
+        pio_sm_put_blocking(pio, sm, valor_led);
+    }
+}
 
 // Função para configurar o teclado
 void configurar_teclado() {
@@ -116,18 +136,6 @@ static void gpio_irq_handler(uint gpio, uint32_t events){
 	reset_usb_boot(0,0); //habilita o modo de gravação do microcontrolador
 }
 
-//rotina para definição da intensidade de cores do led
-uint32_t matrix_rgb(double b, double r, double g)
-{
-  unsigned char R, G, B;
-  R = r * 255 * PIXEL_INTENSITY;
-  G = g * 255 * PIXEL_INTENSITY;
-  B = b * 255 * PIXEL_INTENSITY;
-  return (R << 24) | (G << 16) | (B << 8);
-}
-
-
-
 
 // Vetores com os dados da animação (intensidade de cada cor para cada pixel)
 static double frames_alexsami[FRAME_COUNT][FRAME_SIZE][3] = {
@@ -177,6 +185,55 @@ static double frames_alexsami[FRAME_COUNT][FRAME_SIZE][3] = {
         
     }
 
+};
+
+// Vetores com os dados da animação (intensidade de cada cor para cada pixel)
+static double frames_coracao[5][FRAME_SIZE][3] = {
+    // frame 1
+    {
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0},
+        {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}
+        
+    },
+    // frame 2
+    {
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}
+        
+    },
+    // frame 3
+    {
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0},
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0}
+        
+    },
+    // frame 4
+    {
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}
+        
+    },
+    // frame 5
+    {
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0},
+        {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0},
+        {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0},
+        {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 1.0}, {0.0, 0.0, 0.0}
+        
+    },
 };
 
 
@@ -282,17 +339,6 @@ void exibir_animacao_embarcatech(PIO pio, uint sm) {
 }
 
 // Função para acionar a matriz de LEDs - ws2812b
-void desenho_pio(double frame[FRAME_SIZE][3], uint32_t valor_led, PIO pio, uint sm) {
-    for (int i = 0; i < FRAME_SIZE; i++) {
-        double r = frame[i][0];
-        double g = frame[i][1];
-        double b = frame[i][2];
-        valor_led = matrix_rgb(r, g, b);
-        pio_sm_put_blocking(pio, sm, valor_led);
-    }
-}
-
-// Função para acionar a matriz de LEDs - ws2812b
 void apagar_matriz_leds( PIO pio, uint sm) {
     for (int i = 0; i < FRAME_SIZE; i++) {
         uint32_t valor_led = matrix_rgb(0, 0, 0);
@@ -308,6 +354,14 @@ void exibir_animacao_alexsami(PIO pio, uint sm) {
         sleep_ms(130); // Pausa entre os frames
     }
 }
+
+void exibir_animacao_sara(PIO pio, uint sm){
+    for (int i = 0; i < 5; i++) {
+        desenho_pio(frames_coracao[i], 0, pio, sm);
+        sleep_ms(700); 
+    }
+}
+
 
 
 //função principal
@@ -401,7 +455,8 @@ int main()
             sleep_ms(1000);
             break;
         case '8':
-
+            exibir_animacao_sara(pio, sm);
+            sleep_ms(1000);
             break;
         case '9':
 
