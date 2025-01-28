@@ -23,7 +23,6 @@
 
 //número de LEDs
 #define NUM_PIXELS 25
-#define BUZZER_PIN 21
 
 //pino de saída
 #define OUT_PIN 7
@@ -70,20 +69,6 @@ uint32_t matrix_rgb(double b, double r, double g)
   return (R << 24) | (G << 16) | (B << 8);
 }
 
-// Função para acionar os LEDs
-void acionar_leds(PIO pio, uint sm, double r, double g, double b, double intensity) {
-    uint32_t cor = matrix_rgb(r, g, b, intensity);
-    for (int i = 0; i < NUM_PIXELS; i++) {
-        pio_sm_put_blocking(pio, sm, cor);
-    }
-}
-// Função para gerar sinal sonoro
-void gerar_sinal_sonoro(uint buzzer_pin, int duration_ms) {
-    gpio_put(buzzer_pin, 1);
-    sleep_ms(duration_ms);
-    gpio_put(buzzer_pin, 0);
-}
-
 // Função para acionar a matriz de LEDs - ws2812b
 void desenho_pio(double frame[FRAME_SIZE][3], uint32_t valor_led, PIO pio, uint sm) {
     for (int i = 0; i < FRAME_SIZE; i++) {
@@ -108,12 +93,6 @@ void configurar_teclado() {
         gpio_set_dir(linhas[i], GPIO_IN);
         gpio_pull_up(linhas[i]); // Habilita pull-up para evitar leituras erradas
     }
-}
-
-void configurar_buzzer() {
-    gpio_init(BUZZER_PIN);
-    gpio_set_dir(BUZZER_PIN, GPIO_OUT);
-    gpio_put(BUZZER_PIN, 0);
 }
 
 // Função para ler o teclado
@@ -351,10 +330,25 @@ static double frames_embarcatech[11][FRAME_SIZE][3] = {
     }
 };
 
-static double frames_estrela[2][FRAME_SIZE][3] = {
+// Animações feitas por Moises
+static double frames_estrela[1][FRAME_SIZE][3] = {
+        // Frames 1 
+        {
+
+          {0, 0, 0}, {0, 1, 0}, {1, 1, 1}, {0, 1, 0}, {0, 0, 0},
+          {0, 1, 0}, {0, 1, 0}, {1, 1, 1}, {0, 1, 0}, {0, 1, 0},
+          {1, 1, 1}, {1, 1, 1}, {1, 1, 1}, {1, 1, 1}, {1, 1, 1},
+          {0, 1, 0}, {0, 1, 0}, {1, 1, 1}, {0, 1, 0}, {0, 1, 0},
+          {0, 0, 0}, {0, 1, 0}, {1, 1, 1}, {0, 1, 0}, {0, 0, 0}
+        },
+
+        
+   };
+
+
 
     // Frames 1 
-    {
+    /*{
         0.0, 0.0, 0.6, 0.0, 0.0, // Topo da estrela
         0.6, 0.0, 0.0, 0.0, 0.6, // Braços laterais superiores
         0.0, 0.6, 0.0, 0.6, 0.0, // Centro vazio
@@ -369,7 +363,7 @@ static double frames_estrela[2][FRAME_SIZE][3] = {
         1.0, 1.0, 1.0, 1.0, 1.0, // Braços laterais inferiores preenchidos
         0.0, 1.0, 0.0, 1.0, 0.0  // Base preenchida
     },
-};
+};*/
 
 
 
@@ -406,7 +400,7 @@ void exibir_animacao_sara(PIO pio, uint sm){
 }
 
 void exibir_animacao_estrela(PIO pio, uint sm) {
-    for (int i = 0; i < 3; i++) { // Repetir animação 3 vezes
+    for (int i = 0; i < 1; i++) { // Repetir animação 3 vezes
         desenho_pio(frames_estrela[i], 0, pio, sm); 
         sleep_ms(1000);
         
@@ -459,24 +453,17 @@ int main()
 
       switch (tecla) {
         case 'A':
-	    printf("Comando: A - Desligando todos os LEDs\n");
-            acionar_leds(pio, sm, 0.0, 0.0, 0.0, 1.0); 
-            sleep_ms(1000);
-            break;
+        
+        break;
         case 'B':
-            printf("Comando: B - LEDs azuis (100%%)\n");
-            acionar_leds(pio, sm, 0.0, 0.0, 1.0, 1.0); 
+            //desenho_pio(desenho2, valor_led, pio, sm, r, g, b);
             sleep_ms(1000);
             break;
         case 'C':
-	    printf("Comando: C - LEDs vermelhos (80%%)\n");
-            acionar_leds(pio, sm, 1.0, 0.0, 0.0, 0.8);
-            sleep_ms(1000);
+
             break;
         case 'D':
-	    printf("Comando: D - LEDs verdes (50%%)\n");
-            acionar_leds(pio, sm, 0.0, 1.0, 0.0, 0.5);
-            sleep_ms(1000);
+
             break;
         case '#':
             apagar_matriz_leds(pio, sm);
