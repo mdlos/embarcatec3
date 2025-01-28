@@ -358,7 +358,7 @@ void exibir_animacao_alexsami(PIO pio, uint sm) {
 void exibir_animacao_sara(PIO pio, uint sm){
     for (int i = 0; i < 5; i++) {
         desenho_pio(frames_coracao[i], 0, pio, sm);
-        sleep_ms(700); 
+        sleep_ms(600); 
     }
 }
 
