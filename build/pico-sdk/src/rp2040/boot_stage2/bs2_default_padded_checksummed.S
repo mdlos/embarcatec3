@@ -1,4 +1,4 @@
-// Padded and checksummed version of: D:/Documentos - 300GB/Semestre 2025.1/EmbarcaTech/Unidade 4/Tarefa 4/Tarefa_grupo/embarcatec3/build/pico-sdk/src/rp2040/boot_stage2/bs2_default.bin
+// Padded and checksummed version of: C:/Users/Sara/Desktop/EMBARCATECH/Atividades/embarcatec3/build/pico-sdk/src/rp2040/boot_stage2/bs2_default.bin
 
 .cpu cortex-m0plus
 .thumb
