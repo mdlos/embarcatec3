@@ -8,6 +8,7 @@
 //           Jvrsoare
 //           Márcio de Arruda Fonseca
 //           Moises Amorim
+//           Ramom Silva
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -69,6 +70,15 @@ uint32_t matrix_rgb(double b, double r, double g)
   return (R << 24) | (G << 16) | (B << 8);
 }
 
+uint32_t matrix_rgb_dois(double b, double r, double g, double intensity)
+{
+  unsigned char R, G, B;
+  R = r * 255 * intensity;
+  G = g * 255 * intensity;
+  B = b * 255 * intensity;
+  return (R << 24) | (G << 16) | (B << 8);
+}
+
 // Função para acionar a matriz de LEDs - ws2812b
 void desenho_pio(double frame[FRAME_SIZE][3], uint32_t valor_led, PIO pio, uint sm) {
     for (int i = 0; i < FRAME_SIZE; i++) {
@@ -76,6 +86,16 @@ void desenho_pio(double frame[FRAME_SIZE][3], uint32_t valor_led, PIO pio, uint 
         double g = frame[i][1];
         double b = frame[i][2];
         valor_led = matrix_rgb(r, g, b);
+        pio_sm_put_blocking(pio, sm, valor_led);
+    }
+}
+
+void acender_leds_pio(double frame[FRAME_SIZE][3], uint32_t valor_led, PIO pio, uint sm, double intensity) {
+    for (int i = 0; i < FRAME_SIZE; i++) {
+        double r = frame[i][0];
+        double g = frame[i][1];
+        double b = frame[i][2];
+        valor_led = matrix_rgb_dois(r, g, b, intensity);
         pio_sm_put_blocking(pio, sm, valor_led);
     }
 }
@@ -403,6 +423,16 @@ static double frames_operacoes_paola[5][5][3] = {
     {{148, 0, 211}, {148, 0, 211}, {148, 0, 211}, {148, 0, 211}, {148, 0, 211}}
 };
 
+static double leds_vermelhos[1][FRAME_SIZE][3] = {
+    {
+        {0, 0, 1}, {0, 0, 1}, {0, 0, 1}, {0, 0, 1}, {0, 0, 1},
+        {0, 0, 1}, {0, 0, 1}, {0, 0, 1}, {0, 0, 1}, {0, 0, 1},
+        {0, 0, 1}, {0, 0, 1}, {0, 0, 1}, {0, 0, 1}, {0, 0, 1},
+        {0, 0, 1}, {0, 0, 1}, {0, 0, 1}, {0, 0, 1}, {0, 0, 1},
+        {0, 0, 1}, {0, 0, 1}, {0, 0, 1}, {0, 0, 1}, {0, 0, 1}
+    } 
+};
+
 // Função para exibir animação das letras "EMBARCATECH"
 void exibir_animacao_embarcatech(PIO pio, uint sm) {
     for (int i = 0; i < 11; i++) { // 11 letras em "EMBARCATECH"
@@ -450,6 +480,11 @@ void exibir_animacao_operacoes_paola(PIO pio, uint sm) {
     }
 }
 
+void ligar_todos_leds_vemelhos_intessidade_alta_ramom(PIO pio, uint sm) {
+    
+    acender_leds_pio(leds_vermelhos[0], 0, pio, sm, 0.8);
+}
+
 //função principal
 int main()
 {
@@ -458,6 +493,7 @@ int main()
   uint16_t i;
   uint32_t valor_led;
   double r = 0.0, b = 0.0 , g = 0.0;
+  bool apagar = true;
 
   //coloca a frequência de clock para 128 MHz, facilitando a divisão pelo clock
   ok = set_sys_clock_khz(128000, false);
@@ -496,14 +532,15 @@ int main()
 
       switch (tecla) {
         case 'A':
-        
+            apagar = true;
         break;
         case 'B':
             //desenho_pio(desenho2, valor_led, pio, sm, r, g, b);
             sleep_ms(1000);
             break;
         case 'C':
-
+            ligar_todos_leds_vemelhos_intessidade_alta_ramom(pio, sm);
+            apagar = false;
             break;
         case 'D':
 
@@ -517,6 +554,7 @@ int main()
         case '0':
             exibir_animacao_embarcatech(pio, sm);
             sleep_ms(1000);
+            apagar = true;
             break;
         case '1':
 
@@ -524,6 +562,7 @@ int main()
         case '2':
                exibir_animacao_estrela(pio, sm);
                sleep_ms(1000);
+               apagar = true;
             break;
         case '3':
 
@@ -534,6 +573,7 @@ int main()
         case '5':
 		exibir_animacao_operacoes_paola(pio, sm);
             	sleep_ms(1000);
+                apagar = true;
 		break;
         case '6':
 
@@ -541,10 +581,12 @@ int main()
         case '7':
             exibir_animacao_alexsami(pio, sm);
             sleep_ms(1000);
+            apagar = true;
             break;
         case '8':
             exibir_animacao_sara(pio, sm);
             sleep_ms(1000);
+            apagar = true;
             break;
         case '9':
 
@@ -556,7 +598,9 @@ int main()
     }
     sleep_ms(DEBOUNCE_DELAY); // Delay para debounce
     //exibir_animacao_alexsami(pio, sm); //botão USADO PARA TESTES NA PLACA FÍSICA
-    apagar_matriz_leds(pio, sm);
+    if(apagar){
+        apagar_matriz_leds(pio, sm);
+    }
 
   
   }
