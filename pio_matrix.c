@@ -330,6 +330,28 @@ static double frames_embarcatech[11][FRAME_SIZE][3] = {
     }
 };
 
+static double frames_estrela[2][FRAME_SIZE][3] = {
+
+    // Frames 1 
+    {
+        0.0, 0.0, 0.6, 0.0, 0.0, // Topo da estrela
+        0.6, 0.0, 0.0, 0.0, 0.6, // Braços laterais superiores
+        0.0, 0.6, 0.0, 0.6, 0.0, // Centro vazio
+        0.6, 0.0, 0.0, 0.0, 0.6, // Braços laterais inferiores
+        0.0, 0.0, 0.6, 0.0, 0.0  // Base da estrela
+    },
+     //Frames 2
+    {
+        0.0, 0.0, 1.0, 0.0, 0.0, // Topo cheio
+        1.0, 1.0, 1.0, 1.0, 1.0, // Braços laterais superiores preenchidos
+        0.0, 1.0, 1.0, 1.0, 0.0, // Centro totalmente preenchido
+        1.0, 1.0, 1.0, 1.0, 1.0, // Braços laterais inferiores preenchidos
+        0.0, 1.0, 0.0, 1.0, 0.0  // Base preenchida
+    },
+};
+
+
+
 // Função para exibir animação das letras "EMBARCATECH"
 void exibir_animacao_embarcatech(PIO pio, uint sm) {
     for (int i = 0; i < 11; i++) { // 11 letras em "EMBARCATECH"
@@ -362,7 +384,13 @@ void exibir_animacao_sara(PIO pio, uint sm){
     }
 }
 
-
+void exibir_animacao_estrela(PIO pio, uint sm) {
+    for (int i = 0; i < 3; i++) { // Repetir animação 3 vezes
+        desenho_pio(frames_estrela[i], 0, pio, sm); 
+        sleep_ms(1000);
+        
+    }
+}
 
 //função principal
 int main()
@@ -436,7 +464,8 @@ int main()
 
             break;
         case '2':
-
+               exibir_animacao_estrela(pio, sm);
+               sleep_ms(1000);
             break;
         case '3':
 
