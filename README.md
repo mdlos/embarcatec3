@@ -61,7 +61,7 @@ O principal objetivo deste projeto é utilizar o Raspberry Pi Pico W juntamente 
     
 <figcaption>
 
-**Figura 1** - Demo do Projeto no Wokwi.com - Acessível em: https://wokwi.com/projects/420933409236358145
+**Figura 1** - Demo do Projeto no Wokwi.com - Acessível em: https://wokwi.com/projects/421343038406179841
     </figcaption>
   </figure>
 </div>
