@@ -747,7 +747,6 @@ void exibir_animacao(char palavra[], PIO pio, uint sm) {
     }
 }
 
-
 // Função para exibir a animação
 void exibir_animacao_piscar_olho_ramom(PIO pio, uint sm) {
     for(int i = 0; i < 3; i++) {
