@@ -67,6 +67,7 @@ Siga os passos abaixo para clonar o repositório, importar no VS Code usando a e
 - Animação feita por Paola, caso a tecla 5 seja acionada, aparece a animação das operações matemáticas (+, -, x, ÷, =). Caso a tecla B seja acionada, todos os LEDS azuis são ligados.
 - Animação feita por Alexsami Lopes, ao apertar a tecla 7, aparece um emoji com olhos que se movimentam e ao fim faz uma cara de surpresa. <img src="images/sprite_5.png" width="15px">
 - Animação feita por Sara, caso a tecla 8 seja acionada, é exibindo um coração "arrastando" na matriz de led.
+- Animação feita por Marcio, caso a tecla 9 seja acionada, é exibindo uma bandeira do Barsil e o nome BRASIL na matriz de led.
 - Animação feita por Ramom Silva, caso a tecla 3 seja acionada, é um olho que pisca lentamente 3 vezes.
 - Feature feita por Ramom Silva, ao aperta a tecla C, todos os leds acendem na cor vermelha com intencidade de 80% da capacidade máxima dos leds, para apagar todos os leds, basta apertar a tecla A.
 - Animação feita por Pedro Vitor, ao apertar a tecla "D", todos os leds são acessos em 50% de intensidade.
