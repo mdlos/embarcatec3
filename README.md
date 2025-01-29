@@ -34,6 +34,7 @@ O principal objetivo deste projeto é utilizar o Raspberry Pi Pico W juntamente 
 - Animação feita por Sara, caso a tecla 8 seja acionada, é exibindo um coração "arrastando" na matriz de led.
 - Feature feita por Ramom Silva, ao aperta a tecla C, todos os leds acendem na cor vermelha com intencidade de 80% da capacidade máxima dos leds, para apagar todos os leds, basta apertar a tecla A.
 - Animação feita por Pedro Vitor, ao apertar a tecla "D", todos os leds são acessos em 50% de intensidade.
+- Animação feita por Moises Amorim Vieira, caso a tecla 2 seja acionada, é exibido um tabuleiro de Xadrez.
 
 ## 💻 Desenvolvedores
  
