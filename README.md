@@ -30,11 +30,11 @@ O principal objetivo deste projeto é utilizar o Raspberry Pi Pico W juntamente 
 
 - Animação feita por José Vinicius, ao apertar a tecla 0, irá aparecer o nome "EMBARCATECH". Caso a tecla A seja acionada, todos os LEDs deverão ser desligados.
 - Animação feita por Paola, caso a tecla 5 seja acionada, aparece a animação das operações matemáticas (+, -, x, ÷, =). Caso a tecla B seja acionada, todos os LEDS azuis são ligados.
-- Animação feita por Alexsami Lopes, ao apertar a tecla 7, aparece um emoji com olhos que se movimentam e ao fim faz uma cara de surpresa. <img src="images/sprite_5.png" width="15px"> Além disso, as funcionalidades das teclas * e #.
+- Animação feita por Alexsami Lopes, ao apertar a tecla 7, aparece um emoji com olhos que se movimentam e ao fim faz uma cara de surpresa. <img src="images/sprite_5.png" width="15px">
 - Animação feita por Sara, caso a tecla 8 seja acionada, é exibindo um coração "arrastando" na matriz de led.
 - Feature feita por Ramom Silva, ao aperta a tecla C, todos os leds acendem na cor vermelha com intencidade de 80% da capacidade máxima dos leds, para apagar todos os leds, basta apertar a tecla A.
 - Animação feita por Pedro Vitor, ao apertar a tecla "D", todos os leds são acessos em 50% de intensidade.
-- Animação feita por Moises Amorim Vieira, caso a tecla 2 seja acionada, é exibindo um tabuleiro de Xadrez.
+
 ## 💻 Desenvolvedores
  
 <table>
@@ -61,7 +61,7 @@ O principal objetivo deste projeto é utilizar o Raspberry Pi Pico W juntamente 
     
 <figcaption>
 
-**Figura 1** - Demo do Projeto no Wokwi.com - Acessível em: https://wokwi.com/projects/420933409236358145
+**Figura 1** - Demo do Projeto no Wokwi.com - Acessível em: https://wokwi.com/projects/421343038406179841
     </figcaption>
   </figure>
 </div>
