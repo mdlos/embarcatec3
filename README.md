@@ -11,8 +11,6 @@ O principal objetivo deste projeto é utilizar o Raspberry Pi Pico W juntamente 
 
 ## 🗒️ Lista de requisitos
 
-- Teclado matricial 4x4.; 
-- Microcontrolador Raspberry Pi Pico W;
 - Teclado matricial 4x4; 
 - Microcontrolador Raspberry Pi Pico W; 
 - Matriz de LEDs Coloridos (LED-RGB 5x5 WS2812);
@@ -23,7 +21,44 @@ O principal objetivo deste projeto é utilizar o Raspberry Pi Pico W juntamente 
 1. **Git e Github**;
 2. **VScode**;
 3. **Linguagem C**;
-4. **Software de emulação PuTTy.**
+4. **Software de emulação PuTTy. (Opcional para testes)**
+5. **Extensões no VScode do Raspberry Pi Pico Project e CMake**
+
+## 💻 Instruções para Importar, Compilar e Rodar o Código Localmente
+
+Siga os passos abaixo para clonar o repositório, importar no VS Code usando a extensão do **Raspberry Pi Pico Project**, compilar e executar o código.
+
+1. **Clone o repositório para sua máquina local**  
+   Abra o terminal e execute os comandos abaixo:
+   ```bash
+   git clone https://github.com/usuario/projeto.git
+   cd projeto
+
+2. **Abra o VS Code e instale a extensão "Raspberry Pi Pico Project" (caso não já a tenha instalada)**
+ - No VS Code, vá até "Extensões" (Ctrl+Shift+X)
+ - Pesquise por "Raspberry Pi Pico Project"
+ - Instale a extensão oficial
+
+3. **Importe o projeto no VS Code**
+ - No VS Code, na barra lateral do lado esquerdo clique em "Raspberry Pi Pico Project" <img src="images/icon_raspberry_pico_project.png" width="25px">
+ - No menu que aparecer clique em <img src="images/icon_import_project.png" height="25px">
+ - Clicando em "Change" escolha a pasta clonada do repositório
+ - Escolha a versão do SDK 2.1.0
+ - Clique em "Import"
+
+
+    <img src="images/icon_import_project_settings.png" width="500px">
+
+
+4. **Compile o projeto**
+ - Com o projeto aberto no VS Code, pressione <img src="images/icon_compile.png" height="25px">
+ - Aguarde a finalização do processo de build
+
+5. **Rode o código no Raspberry Pi Pico**
+ - Conecte o Raspberry Pi Pico ao PC segurando o botão "BOOTSEL".
+ - Arraste e solte o arquivo `.uf2`, localizado dentro da pasta "build" do seu projeto, gerado na unidade USB montada.
+ - O código será carregado automaticamente e o Pico será reiniciado.
+ - Caso tenha instalado o driver com o Zadig clique em "Run" ao lado do botão <img src="images/icon_compile.png" height="25px">
 
 
 ## 🔧 Funcionalidades Implementadas:
@@ -63,7 +98,7 @@ O principal objetivo deste projeto é utilizar o Raspberry Pi Pico W juntamente 
     
 <figcaption>
 
-**Figura 1** - Demo do Projeto no Wokwi.com - Acessível em: https://wokwi.com/projects/421343038406179841
+**Figura 1** - Demo do Projeto no Wokwi.com - Acessível em: https://wokwi.com/projects/420933409236358145
     </figcaption>
   </figure>
 </div>
